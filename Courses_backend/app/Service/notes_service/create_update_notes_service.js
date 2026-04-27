@@ -32,10 +32,16 @@ export const create_notes_service = async(workspace_id , notes_title , notes_dat
 }
 
 
-export const update_notes_service = async(note_id , notes_title , notes_data )=>{
+export const update_notes_service = async(workspace_id , note_id , notes_title , notes_data )=>{
 
     try{    
         const note_id_new = mongoose.Types.ObjectId(note_id);
+        const workspace_id_new = mongoose.Types.ObjectId(workspace_id);
+
+        const check_workspace = await workspace_model.findOne({_id : workspace_id_new});
+        if(!check_workspace){
+            throw new Error('workspace not found');
+        }
         const check_note = await notes_model.findOne({_id : note_id_new});
         if(!check_note){
             throw new Error('note not found');
