@@ -12,11 +12,12 @@ const topic_schema = new mongoose.Schema({
         required : true
     } ,
     topic_description : {
-        type : String,
+        type : Object,
         required : true
     }
 },{timestamps : true    })
 
 
 const topic_model = mongoose.model('topic' , topic_schema)
+export { topic_schema };
 export default topic_model;

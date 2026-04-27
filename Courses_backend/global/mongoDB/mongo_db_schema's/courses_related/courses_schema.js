@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-
-import topic_model from "../topic_schema.js";
-
+import { topic_schema } from "./topic_schema.js";
 
 const course_schema = new mongoose.Schema({
        
@@ -13,7 +11,7 @@ const course_schema = new mongoose.Schema({
         type : String,
         required : true
     } ,
-    course_topics : [topic_model]
+    course_topics : [topic_schema]
 
 } ,{timestamps : true   })
 

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import notes_model from "./notes_schema.js";
-import recently_deleted_notes_model from "./recently_deleted_notes_schema.js";
+import { notes_schema } from "./notes_schema.js";
+import { recently_deleted_notes_schema } from "./recently_deleted_notes_schema.js";
 
 const workspace_schema = new mongoose.Schema({
     workspace_name : {
@@ -10,8 +10,8 @@ const workspace_schema = new mongoose.Schema({
 
      userid :{type:Number  , required:true  , unique:true },
 
-     notes : [notes_model],
-     recently_deleted_notes : [recently_deleted_notes_model]    
+     notes : [notes_schema],
+     recently_deleted_notes : [recently_deleted_notes_schema]    
 
 },{timestamps : true })
 
