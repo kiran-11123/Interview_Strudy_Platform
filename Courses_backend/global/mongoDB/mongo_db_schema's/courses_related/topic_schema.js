@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 
 const topic_schema = new mongoose.Schema({
+    course_id : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'course',
+        required : true
+    } ,
     topic_name : {
         type : String,
         required : true
