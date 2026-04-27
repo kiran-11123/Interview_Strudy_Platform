@@ -14,3 +14,9 @@ const workspace_schema = new mongoose.Schema({
      recently_deleted_notes : [recently_deleted_notes_model]    
 
 },{timestamps : true })
+
+
+const workspace_model = mongoose.model('workspace' , workspace_schema);
+
+
+export default workspace_model;
