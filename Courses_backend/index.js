@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cors from 'cors'
-import Connect_MongoDB from "./global/db_connection.js";
+import Connect_MongoDB from "./global/mongoDB/db_connection.js";
 
 const app = express();
 app.use(cors());
