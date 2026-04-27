@@ -8,7 +8,7 @@ const workspace_schema = new mongoose.Schema({
         required : true
     },
 
-     userid :{type:Number } ,
+     userid :{type:Number  , required:true  , unique:true },
 
      notes : [notes_model],
      recently_deleted_notes : [recently_deleted_notes_model]    

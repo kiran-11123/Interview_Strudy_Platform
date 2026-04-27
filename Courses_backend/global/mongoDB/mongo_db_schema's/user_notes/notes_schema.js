@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const notes_schema = new mongoose.Schema({
 
-        title:{type:Object},
+        title:{type:String , required:true},
         data:{type:Object},
         favourite :{type:Boolean , default:false},
-        
         createdAt:{type:Date , default:Date.now}
+
 } ,{timestamps : true})
 
 

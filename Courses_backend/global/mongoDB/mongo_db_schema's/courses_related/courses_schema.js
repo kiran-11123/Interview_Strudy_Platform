@@ -9,7 +9,10 @@ const course_schema = new mongoose.Schema({
         type : String,
         required : true } , 
 
-    course_description : String,
+    course_description : {
+        type : String,
+        required : true
+    } ,
     course_topics : [topic_model]
 
 } ,{timestamps : true   })
