@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import topic_model from "./topic_schema.js";
+import topic_model from "../topic_schema.js";
 
 
 const course_schema = new mongoose.Schema({
