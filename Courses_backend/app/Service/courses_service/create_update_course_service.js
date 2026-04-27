@@ -1,7 +1,7 @@
 import course_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/courses_schema.js";
 
 
-const create_course_service = async(course_name , course_description )=>{
+export const create_course_service = async(course_name , course_description )=>{
      
     try{
 
