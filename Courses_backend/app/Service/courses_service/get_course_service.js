@@ -9,6 +9,8 @@ export const get_course_service = async(course_id)=>{
 
         const cache_key = `course:${course_id}`;
 
+        
+
          try{
 
             const cached_course = await redis_client.get(cache_key);
