@@ -63,7 +63,7 @@ export const get_all_courses_service = async()=>{
         const cache_key = `all_courses`;
 
             try{
-                const cached_courses = await redis_client.get(cache_key);
+                 const cached_courses = await redis_client.get(cache_key);
 
                 if(cached_courses){
                     return JSON.parse(cached_courses);
@@ -76,7 +76,10 @@ export const get_all_courses_service = async()=>{
 
 
         const courses = await course_model.find();
+       
+       
 
+       
       
 
 

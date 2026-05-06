@@ -4,6 +4,13 @@ import course_model from "../../../global/mongoDB/mongo_db_schema's/courses_rela
 
 
 
+export const create_topic_course_service = async(course_id , topic_name , topic_description)=>{
+   
+
+     
+
+}
+
 export const get_topics_course_service = async(course_id)=>{
       
     try{
@@ -63,7 +70,7 @@ export const update_topic_course_service = async(course_id , topic_id , topic_na
 
     try{
 
-          const course_id_new = mongoose.Types.ObjectId(course_id);
+          const course_id_new = new mongoose.Types.ObjectId(course_id);
         const check_course = await course_model.findById(course_id_new);
       
 
@@ -107,7 +114,7 @@ export const delete_topics_course_service = async(course_id ,topic_id)=>{
      
     try{
 
-        const course_id_new = mongoose.Types.ObjectId(course_id);
+        const course_id_new = new mongoose.Types.ObjectId(course_id);
 
         const check_course  = await course_model.findById(course_id_new);
 
@@ -149,7 +156,7 @@ export const delete_all_topics_course_service = async(course_id)=>{
 
     try{
 
-        const course_id_new = mongoose.Types.ObjectId(course_id);
+        const course_id_new =new  mongoose.Types.ObjectId(course_id);
 
         const check_course  = await course_model.findById(course_id_new);
 

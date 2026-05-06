@@ -43,7 +43,7 @@ export const get_all_courses_controller = async(req,res)=>{
 
          const result = await get_all_courses_service();
 
-         console.log(result);
+         
 
          if(result.length === 0){
             return res.status(204).json({

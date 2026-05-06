@@ -25,7 +25,7 @@ export const delete_course_controller = async(req,res)=>{
         }   
 
         return res.status(500).json({
-            message : "Internal Server Error"
+            message : `Internal Server Error , ${er.message}`
         })
     }
 

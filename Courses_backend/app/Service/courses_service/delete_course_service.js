@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import redis_client from "../../../../redis/index.js";
 import course_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/courses_schema.js";
 import topic_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/topic_schema.js";
@@ -12,8 +13,10 @@ export const delete_course_service = async(course_id)=>{
             await redis_client.del(`course:${course_id}`);
         }
 
+        const course_id_new =new mongoose.Types.ObjectId(course_id);
 
-        const course = await course_model.findById(course_id);
+
+        const course = await course_model.findById(course_id_new);
 
         if(!course){
             throw new Error('Course not found');
@@ -39,7 +42,7 @@ export const delete_course_service = async(course_id)=>{
             await topic_model.deleteMany({_id : {$in : topic_ids}});
         }
 
-        await course.remove();
+        await course.deleteOne();
 
         return course;
     }
