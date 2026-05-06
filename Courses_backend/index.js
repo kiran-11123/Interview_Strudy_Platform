@@ -12,8 +12,8 @@ app.use(cors());
 Connect_MongoDB();
 
 app.use(express.json());
-app.use('/notes' , notes_Router);
-app.use('/courses' , courses_router);
+app.use('/api/notes' , notes_Router);
+app.use('/api/courses' , courses_router);
 const PORT = process.env.PORT || 5001;
 
 

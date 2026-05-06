@@ -1,5 +1,6 @@
 import course_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/courses_schema.js";
 import redis_client from "../../../../redis/index.js";
+import mongoose from "mongoose";
 
 
 
@@ -10,6 +11,7 @@ export const get_course_service = async(course_id)=>{
         const cache_key = `course:${course_id}`;
 
         
+        const new_course_id = new mongoose.Types.ObjectId(course_id);
 
          try{
 
@@ -25,7 +27,7 @@ export const get_course_service = async(course_id)=>{
             console.error('Error fetching from Redis:', er);
          }
 
-        const course = await course_model.findById(course_id);
+        const course = await course_model.findById(new_course_id);
 
         if(!course){
             throw new Error('Course not found');
@@ -74,6 +76,8 @@ export const get_all_courses_service = async()=>{
 
 
         const courses = await course_model.find();
+
+      
 
 
         try{

@@ -29,7 +29,7 @@ export const get_course_controller = async(req , res)=>{
             })
         }
         return res.status(500).json({
-            message : "Internal Server Error"
+            message : `Internal Server Error , ${er.message}` 
         })
     }
 
@@ -43,17 +43,24 @@ export const get_all_courses_controller = async(req,res)=>{
 
          const result = await get_all_courses_service();
 
+         console.log(result);
+
          if(result.length === 0){
             return res.status(204).json({
                 message :"Course Bucket is Empty"
             })
          }
 
+         return res.status(200).json({  
+            message : "Data Fetched Successfully",
+            data : result
+         })
+
     }
     catch(er){
 
         return res.status(500).json({
-            message : "Internal Server Error"
+            message : `Internal Server Error , ${er.message}`
         })
          
     }

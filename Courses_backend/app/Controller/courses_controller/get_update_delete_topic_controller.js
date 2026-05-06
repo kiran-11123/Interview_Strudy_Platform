@@ -1,6 +1,5 @@
-import get_all_topics_course_service from "../../Service/courses_service/get_update_delete_topic_service.js";
-import update_topic_course_service from "../../Service/courses_service/get_update_delete_topic_service.js";
-import delete_topic_course_service from "../../Service/courses_service/get_update_delete_topic_service.js";
+import { delete_topics_course_service ,get_topics_course_service } from "../../Service/courses_service/get_update_delete_topic_service.js";
+import {update_topic_course_service} from "../../Service/courses_service/get_update_delete_topic_service.js";
 import { delete_all_topics_course_service } from "../../Service/courses_service/get_update_delete_topic_service.js";
 
 
@@ -9,7 +8,7 @@ export const get_topics_course_controller = async(req , res)=>{
 
     try{
         const {course_id} = req.params;
-        const topics = await get_all_topics_course_service(course_id);
+        const topics = await get_topics_course_service(course_id);
         res.status(200).json({message : 'topics retrieved successfully' , topics : topics});
     }
     catch(er){
@@ -49,7 +48,7 @@ export const delete_topic_course_controller = async(req , res)=>{
     try{
         const {course_id , topic_id} = req.params;
 
-        const deleted_topic = await delete_topic_course_service(course_id , topic_id);
+        const deleted_topic = await delete_topics_course_service(course_id , topic_id);
         res.status(200).json({message : 'topic deleted successfully' , topic : deleted_topic});
     }
     catch(er){
