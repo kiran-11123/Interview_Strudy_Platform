@@ -1,12 +1,57 @@
 import mongoose, { mongo } from "mongoose";
 import redis_client from "../../../../redis/index.js";
 import course_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/courses_schema.js";
+import topic_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/topic_schema.js";
 
 
 
 export const create_topic_course_service = async(course_id , topic_name , topic_description)=>{
    
+       
+    try{
 
+         const course_id_new = new mongoose.Types.ObjectId(course_id);
+        
+         const find_topic = await topic_model.findOne({topic_name : topic_name});
+
+         if(find_topic){
+            throw new Error('Topic Name already present')
+         }
+
+         const new_topic = await topic_model.create({
+             course_id : course_id_new,
+             topic_name : topic_name,
+             topic_description : topic_description
+         })
+
+         const check_course = await course_model.findById(course_id_new);
+         
+         if(!check_course){
+             throw new Error('Course not found');
+         }
+
+         check_course.course_topics.push({
+             topic_id : new_topic._id,
+             topic_name : new_topic.topic_name
+         });
+         await check_course.save();
+  
+
+         const cache_course_topics = `course:${course_id}_topics`
+         try{
+             await redis_client.del(cache_course_topics);
+         }
+         catch(er){
+             console.error(`Error while deleting course_topics in redis with id ${course_id} `)
+         }
+
+         return new_topic;
+
+
+    }
+    catch(er){
+        throw er
+    }
      
 
 }
@@ -78,16 +123,18 @@ export const update_topic_course_service = async(course_id , topic_id , topic_na
         if(!check_course){
             throw new Error('Course not found');
         }
-        const topic_id_str = topic_id.toString();
-        const topic_index = check_course.course_topics.findIndex(topic => topic._id.toString() === topic_id_str);
+        const topic_id_obj = new mongoose.Types.ObjectId(topic_id);
+        const topic_index = check_course.course_topics.findIndex(topic => topic.topic_id.toString() === topic_id_obj.toString());
         if(topic_index === -1){
             throw new Error('Topic not found in the course');
         }
-        const topic = check_course.course_topics[topic_index];
+        
+        const topic = await topic_model.findById(topic_id_obj);
         topic.topic_name = topic_name || topic.topic_name;
         topic.topic_description = topic_description || topic.topic_description;
         await topic.save();
-        check_course.course_topics[topic_index] = topic;
+        
+        check_course.course_topics[topic_index].topic_name = topic.topic_name;
         await check_course.save();
 
         const cache_course_topics = `course:${course_id}_topics`
@@ -122,20 +169,21 @@ export const delete_topics_course_service = async(course_id ,topic_id)=>{
             throw new Error ('course not found');
         }
 
-        const topic_id_str = topic_id.toString();
+        const topic_id_obj = new mongoose.Types.ObjectId(topic_id);
 
-        const topic_index = check_course.course_topics.findIndex(topic => topic._id.toString() === topic_id_str);
+        const topic_index = check_course.course_topics.findIndex(topic => topic.topic_id.toString() === topic_id_obj.toString());
 
         if(topic_index === -1){
             throw new Error('Topic not found in the course');
         }
 
-        const topic = check_course.course_topics[topic_index];
+        const topic = await topic_model.findById(topic_id_obj);
+        await topic_model.deleteOne({_id: topic_id_obj});
 
         check_course.course_topics.splice(topic_index , 1);
 
         await check_course.save();
-
+        
         const cache_course_topics = `course:${course_id}_topics`
         try{
             await redis_client.del(cache_course_topics);
@@ -143,6 +191,8 @@ export const delete_topics_course_service = async(course_id ,topic_id)=>{
         catch(er){
             console.error(`Error while deleting course_topics in redis with id ${course_id} `)
         }
+        
+        return topic;
 
     }
     catch(er){

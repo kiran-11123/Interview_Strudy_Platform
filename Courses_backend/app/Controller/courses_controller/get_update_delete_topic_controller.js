@@ -1,8 +1,44 @@
+import topic_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/topic_schema.js";
 import { delete_topics_course_service ,get_topics_course_service } from "../../Service/courses_service/get_update_delete_topic_service.js";
 import {update_topic_course_service} from "../../Service/courses_service/get_update_delete_topic_service.js";
-import { delete_all_topics_course_service } from "../../Service/courses_service/get_update_delete_topic_service.js";
+import { delete_all_topics_course_service  , create_topic_course_service} from "../../Service/courses_service/get_update_delete_topic_service.js";
 
 
+
+export const create_topic_course_controller = async(req,res)=>{
+      
+    try{
+
+        const {course_id , topic_name , topic_description} = req.body;
+
+        if(!course_id || !topic_name || !topic_description){
+             return res.status(400).json({
+                message : "Invalid Inputs"
+             })
+        }
+
+        const result = await create_topic_course_service(course_id , topic_name , topic_description);
+
+        
+
+        return res.status(200).json({
+            message : 'Topic Created successfully'
+        })
+
+    }
+    catch(er){
+         
+        if(er.message === 'Topic Name already present'){
+            return res.status(400).json({
+                message : "Topic Name already present"
+            })
+        }
+
+        return res.status(500).json({
+            message : `Internal Server Error ${er}`
+        })
+    }
+}
 
 export const get_topics_course_controller = async(req , res)=>{
 

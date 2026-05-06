@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { topic_schema } from "./topic_schema.js";
 
 const course_schema = new mongoose.Schema({
        
@@ -11,7 +10,17 @@ const course_schema = new mongoose.Schema({
         type : String,
         required : true
     } ,
-    course_topics : [topic_schema]
+    course_topics : [{
+        topic_id : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'topic',
+            required : true
+        },
+        topic_name : {
+            type : String,
+            required : true
+        }
+    }]
 
 } ,{timestamps : true   })
 

@@ -27,7 +27,7 @@ export const get_course_service = async(course_id)=>{
             console.error('Error fetching from Redis:', er);
          }
 
-        const course = await course_model.findById(new_course_id);
+        const course = await course_model.findById(new_course_id).populate('course_topics');
 
         if(!course){
             throw new Error('Course not found');
@@ -75,7 +75,7 @@ export const get_all_courses_service = async()=>{
             }
 
 
-        const courses = await course_model.find();
+        const courses = await course_model.find().populate('course_topics');
        
        
 
