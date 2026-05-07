@@ -37,6 +37,8 @@ export const update_workspace_service = async( workspace_id , new_workspace_name
      
     try{
 
+      
+
         const new_workspace_id = new mongoose.Types.ObjectId(workspace_id);
 
     
@@ -49,8 +51,8 @@ export const update_workspace_service = async( workspace_id , new_workspace_name
         }
 
         const check_new_workspace_name = await workspace_model.findOne({workspace_name : new_workspace_name , userid  : user_id});
-
-        if(find_workspace){
+         
+        if(check_new_workspace_name){
             throw new Error('WorkSpace with this name is already created')
         }
 
@@ -95,6 +97,44 @@ export const delete_workspace_service = async(workspace_id , user_id)=>{
         return ;
 
 
+
+    }
+    catch(er){
+        throw er;
+    }
+}
+
+
+export const get_user_workspaces_service = async(user_id)=>{
+     
+    try{
+
+        const workspaces = await workspace_model.find({userid : user_id});
+
+        return workspaces;
+    }
+    catch(er){
+        throw er;
+    }       
+
+
+}
+
+
+export const get_workspace_service = async(workspace_id , user_id)=>{
+     
+    try{    
+
+        const new_workspace_id = new mongoose.Types.ObjectId(workspace_id);
+
+        const workspace = await workspace_model.findOne({_id : new_workspace_id , userid : user_id});
+
+        if(!workspace){
+            throw new Error('workspace is not found')
+        }
+
+
+        return workspace;
 
     }
     catch(er){

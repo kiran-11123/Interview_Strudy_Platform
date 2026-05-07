@@ -4,7 +4,7 @@ import { delete_notes_controller } from '../../Controller/notes_controller/delet
 const notes_Router = express.Router();
     
 
-notes_Router.post('/create_notes' , create_notes_controller);
+notes_Router.post('/create_notes/:workspace_id' , create_notes_controller);
 notes_Router.put('/update_notes/:note_id' , update_notes_controller);
 
 notes_Router.delete('/delete_notes/:note_id' , delete_notes_controller);
