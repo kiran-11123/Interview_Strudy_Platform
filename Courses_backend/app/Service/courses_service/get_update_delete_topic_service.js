@@ -210,9 +210,16 @@ export const delete_all_topics_course_service = async(course_id)=>{
 
         const check_course  = await course_model.findById(course_id_new);
 
+        
+
         if(!check_course){
             throw new Error ('course not found');
         }
+
+
+
+        await topic_model.deleteMany({course_id : course_id_new });
+
         check_course.course_topics = [];
         await check_course.save();
         const cache_course_topics = `course:${course_id}_topics`
