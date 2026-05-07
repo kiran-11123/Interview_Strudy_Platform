@@ -1,4 +1,4 @@
-import { Create_WorkSpace_service } from "../../Service/workspace_service/create_workspace_service.js";
+import { Create_WorkSpace_service  , update_workspace_service } from "../../Service/workspace_service/create_update_workspace_service.js";
 
 
 export const create_Workspace_controller = async(req , res)=>{
@@ -28,6 +28,32 @@ export const create_Workspace_controller = async(req , res)=>{
 
         return res.status(500).json({
             message : `Internal Server Error ${er.message}`
+        })
+    }
+}
+
+
+export const update_workspace_controller = async(req,res)=>{
+     
+    try{
+
+    }
+    catch(er){
+         
+        if(er.message === 'workspace is not found'){
+            return res.status(404).json({
+                message : "workspace is not found"
+            })
+        }
+
+        else if(er.message === 'WorkSpace with this name is already created'){
+            return res.status(400).json({
+                message : 'WorkSpace with this name is already created'
+            })
+        }
+
+        return res.status(500).json({
+            message :`Internal server error ${er.message}`
         })
     }
 }
