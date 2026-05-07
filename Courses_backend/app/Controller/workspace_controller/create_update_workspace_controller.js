@@ -39,6 +39,7 @@ export const update_workspace_controller = async(req,res)=>{
 
         const {workspace_id} = req.params;
         const {new_workspace_name , user_id} = req.body;
+
         if(!workspace_id || !new_workspace_name || !user_id){
             return res.status(400).json({
                 message : 'Invalid Inputs'

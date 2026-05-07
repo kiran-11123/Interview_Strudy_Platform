@@ -37,6 +37,8 @@ export const update_workspace_service = async( workspace_id , new_workspace_name
      
     try{
 
+      
+
         const new_workspace_id = new mongoose.Types.ObjectId(workspace_id);
 
     
@@ -49,8 +51,8 @@ export const update_workspace_service = async( workspace_id , new_workspace_name
         }
 
         const check_new_workspace_name = await workspace_model.findOne({workspace_name : new_workspace_name , userid  : user_id});
-
-        if(find_workspace){
+         
+        if(check_new_workspace_name){
             throw new Error('WorkSpace with this name is already created')
         }
 

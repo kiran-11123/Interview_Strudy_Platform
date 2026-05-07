@@ -10,8 +10,28 @@ const workspace_schema = new mongoose.Schema({
 
      userid :{type:Number  , required:true  , unique:true },
 
-     notes : [notes_schema],
-     recently_deleted_notes : [recently_deleted_notes_schema]    
+     notes : [{
+             notes_id : {
+                    type : mongoose.Schema.Types.ObjectId,
+                    ref : 'notes',
+                    required : true
+                },
+                notes_name : {
+                    type : String,
+                    required : true
+                }
+     }],
+     recently_deleted_notes : [{
+               notes_id : {
+                    type : mongoose.Schema.Types.ObjectId,
+                    ref : 'notes',
+                    required : true
+                },
+                notes_name : {
+                    type : String,
+                    required : true
+                } 
+     }]    
 
 },{timestamps : true })
 
