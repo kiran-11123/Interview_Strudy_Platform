@@ -101,3 +101,41 @@ export const delete_workspace_service = async(workspace_id , user_id)=>{
         throw er;
     }
 }
+
+
+export const get_user_workspaces_service = async(user_id)=>{
+     
+    try{
+
+        const workspaces = await workspace_model.find({userid : user_id});
+
+        return workspaces;
+    }
+    catch(er){
+        throw er;
+    }       
+
+
+}
+
+
+export const get_workspace_service = async(workspace_id , user_id)=>{
+     
+    try{    
+
+        const new_workspace_id = new mongoose.Types.ObjectId(workspace_id);
+
+        const workspace = await workspace_model.findOne({_id : new_workspace_id , userid : user_id});
+
+        if(!workspace){
+            throw new Error('workspace is not found')
+        }
+
+
+        return workspace;
+
+    }
+    catch(er){
+        throw er;
+    }
+}
