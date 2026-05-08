@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const recently_deleted_notes_schema = new mongoose.Schema({
+           notes_id : {type : mongoose.Schema.Types.ObjectId, ref: 'notes' , required:true},
            title:{type:String , required:true},
            workspace_id : {type : mongoose.Schema.Types.ObjectId, ref: 'workspace' , required:true},
            data:{type:Object},

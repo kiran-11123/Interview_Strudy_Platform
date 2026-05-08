@@ -9,8 +9,8 @@ export const restore_notes_service = async(note_id , workspace_id)=>{
 
     try{ 
 
-        const note_id_new = mongoose.Types.ObjectId(note_id);
-        const workspace_id_new = mongoose.Types.ObjectId(workspace_id);
+        const note_id_new = new mongoose.Types.ObjectId(note_id);
+        const workspace_id_new = new mongoose.Types.ObjectId(workspace_id);
 
         const check_workspace = await workspace_model.findOne({_id : workspace_id_new});
         if(!check_workspace){
@@ -29,14 +29,17 @@ export const restore_notes_service = async(note_id , workspace_id)=>{
         })
         await new_note.save();
         await Promise.all([
-             recently_deleted_notes_model.deleteOne({_id : note_id_new}),
+             recently_deleted_notes_model.deleteOne({notes_id : note_id_new}),
              workspace_model.updateOne(
                 {_id : workspace_id_new},
-                {$pull: {deleted_notes: note_id_new}}
+                {$pull: {recently_deleted_notes : note_id_new}}
             ),
             workspace_model.updateOne(
                 {_id : workspace_id_new},
-                {$push: {notes: new_note}}
+                {$push: {notes: {
+                    notes_id : note_id_new,
+                    notes_name : new_note.title
+                }}}
             )   
 
         ])

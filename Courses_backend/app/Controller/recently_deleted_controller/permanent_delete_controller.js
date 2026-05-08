@@ -4,7 +4,7 @@ import { permanent_delete_notes_service } from "../../Service/recently_deleted_s
 export const permanent_delete_notes_controller = async(req , res)=>{
 
     try{
-        const workspace_id = req.workspace_id;
+        const workspace_id = req.body.workspace_id;
         const {note_id} = req.params;
         const result = await permanent_delete_notes_service(note_id , workspace_id);
         res.status(200).json({message : 'note permanently deleted successfully'});
