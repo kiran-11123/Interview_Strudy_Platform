@@ -37,7 +37,7 @@ export const create_notes_service = async (
         data: notes_data
     });
 
-    check_workspace.notes.push({
+    await check_workspace.notes.push({
         notes_name: notes_title,
         notes_id: new_note._id
     });

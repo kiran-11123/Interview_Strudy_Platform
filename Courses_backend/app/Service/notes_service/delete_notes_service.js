@@ -1,14 +1,15 @@
 import notes_model from "../../../global/mongoDB/mongo_db_schema's/user_notes/notes_schema.js";
 import workspace_model from "../../../global/mongoDB/mongo_db_schema's/user_notes/workspace_schema.js";
-
+import mongoose from "mongoose";
 export const delete_notes_service = async(note_id , workspace_id)=>{
 
     try{
 
-        const note_id_new = mongoose.Types.ObjectId(note_id);
-        const workspace_id_new = mongoose.Types.ObjectId(workspace_id);
+        const note_id_new = new mongoose.Types.ObjectId(note_id);
+        const workspace_id_new =new mongoose.Types.ObjectId(workspace_id);
 
-        const check_workspace = await workspace_model.findOne({_id : workspace_id});
+        const check_workspace = await workspace_model.findOne({_id : workspace_id_new
+        });
         if(!check_workspace){
             throw new Error('workspace not found');
         }
@@ -27,16 +28,28 @@ export const delete_notes_service = async(note_id , workspace_id)=>{
         }
         
 
-         await Promise.all([
-            notes_model.deleteOne({_id: note_id_new}),
-            workspace_model.updateOne(
-                {_id: workspace_id_new},
-                {
-                    $pull: {notes: {_id: note_id_new}},
-                    $push: {recently_deleted_notes: new_deleted_note}
+        
+          await   notes_model.deleteOne({_id: note_id_new}),
+           await  workspace_model.updateOne(
+                {_id : workspace_id_new},
+                {       
+                    $pull : {notes : {notes_id : note_id_new}},
+                    $push : {recently_deleted_notes : note_id_new}
                 }
             )
-        ]);
+
+
+         await recently_deleted_notes_model.create({
+            _id : note_id_new,
+            title : check_note.title,
+
+            workspace_id : check_note.workspace_id,
+            data : check_note.data,
+            favourite : check_note.favourite
+         })
+            
+
+
 
         return new_deleted_note;
         
