@@ -110,6 +110,8 @@ export const get_user_workspaces_controller = async(req,res)=>{
      
     try{
 
+        console.log(req.body);
+
         const {user_id} = req.body;
 
         if(!user_id){

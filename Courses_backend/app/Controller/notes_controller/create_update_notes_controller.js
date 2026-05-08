@@ -6,7 +6,10 @@ export const create_notes_controller = async(req , res)=>{
     try{
 
         const workspace_id = req.params.workspace_id;
-        const {  notes_title , notes_data} = req.body;
+        const {  notes_title , data} = req.body;
+
+
+        
         
         if(!workspace_id || !notes_title){
             return res.status(400).json({
@@ -14,7 +17,7 @@ export const create_notes_controller = async(req , res)=>{
             });
         }
         
-        const new_note = await create_notes_service(workspace_id , notes_title , notes_data);
+        const new_note = await create_notes_service(workspace_id , notes_title , data);
         return res.status(200).json({message : 'note created successfully' , note : new_note});
     }
     catch(er){
