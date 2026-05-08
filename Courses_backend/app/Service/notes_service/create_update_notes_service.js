@@ -8,6 +8,8 @@ export const create_notes_service = async (
     notes_data
 ) => {
 
+    console.log(workspace_id, notes_title, notes_data);
+
     if (!workspace_id || !notes_title) {
         throw new Error('workspace_id and notes_title are required');
     }
@@ -34,7 +36,8 @@ export const create_notes_service = async (
     const new_note = await notes_model.create({
         title: notes_title,
         workspace_id: workspace_id_new,
-        data: notes_data
+        data : notes_data
+        
     });
 
     await check_workspace.notes.push({
@@ -47,7 +50,7 @@ export const create_notes_service = async (
     return new_note;
 };
 
-export const update_notes_service = async(workspace_id , note_id , notes_title , notes_data )=>{
+export const update_notes_service = async(workspace_id , note_id , notes_title , notes_data , favourite = false )=>{
 
     try{    
         if(!workspace_id || !note_id || !notes_title){
@@ -67,6 +70,7 @@ export const update_notes_service = async(workspace_id , note_id , notes_title ,
         }
         check_note.title = notes_title;
         check_note.data = notes_data;
+        check_note.favourite = favourite;
         await check_note.save();
         
         const note_index = check_workspace.notes.findIndex(note => note.notes_id.toString() === note_id_new.toString());
