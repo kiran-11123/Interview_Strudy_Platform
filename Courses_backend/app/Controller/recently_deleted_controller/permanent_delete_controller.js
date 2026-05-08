@@ -17,7 +17,7 @@ export const permanent_delete_notes_controller = async(req , res)=>{
             return res.status(404).json({message : error.message});
         }
         
-        res.status(500).json({message : 'internal server error'});
+        res.status(500).json({message : `internal server error , ${error.message}`});
     }   
 
 }

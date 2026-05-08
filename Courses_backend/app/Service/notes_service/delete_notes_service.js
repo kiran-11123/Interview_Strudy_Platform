@@ -2,6 +2,9 @@ import notes_model from "../../../global/mongoDB/mongo_db_schema's/user_notes/no
 import workspace_model from "../../../global/mongoDB/mongo_db_schema's/user_notes/workspace_schema.js";
 import mongoose from "mongoose";
 import recently_deleted_notes_model from "../../../global/mongoDB/mongo_db_schema's/user_notes/recently_deleted_notes_schema.js";
+
+
+
 export const delete_notes_service = async(note_id , workspace_id)=>{
 
     try{
@@ -30,17 +33,9 @@ export const delete_notes_service = async(note_id , workspace_id)=>{
         
 
         
-          await   notes_model.deleteOne({_id: note_id_new}),
-           await  workspace_model.updateOne(
-                {_id : workspace_id_new},
-                {       
-                    $pull : {notes : {notes_id : note_id_new}},
-                    $push : {recently_deleted_notes : {notes_id : note_id_new}}
-                }
-            )
-
-
-         await recently_deleted_notes_model.create({
+        
+       
+         const new_recently_deleted_note = new recently_deleted_notes_model({
             notes_id : note_id_new,
             title : check_note.title,
 
@@ -48,6 +43,18 @@ export const delete_notes_service = async(note_id , workspace_id)=>{
             data : check_note.data,
             favourite : check_note.favourite
          })
+
+         await new_recently_deleted_note.save();
+
+           await   notes_model.deleteOne({_id: note_id_new}),
+
+             await  workspace_model.updateOne(
+                {_id : workspace_id_new},
+                {       
+                    $pull : {notes : {notes_id : note_id_new}},
+                    $push : {recently_deleted_notes : {notes_id : new mongoose.Types.ObjectId(new_recently_deleted_note._id)}}
+                }
+            )
             
 
 
