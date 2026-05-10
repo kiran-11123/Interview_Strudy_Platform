@@ -1,2 +1,4 @@
 Courses_backend/.env
 redis/.env
+
+Auth_backend/.env
