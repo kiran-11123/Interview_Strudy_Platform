@@ -47,51 +47,99 @@ export const register_user_service = async(name , email , password)=>{
     }
 
 }
+export const login_user_service = async (email, password) => {
 
+    try {
 
-export const login_user_service = async(email , password)=>{
-
-    try{
-        const find_user  =await prisma.user.findUnique({
-            where : {
-                email : email
+        const find_user = await prisma.user.findUnique({
+            where: {
+                email: email
             }
-        })
-        
-        if(!find_user){
-            throw new Error('User with this email does not exist')
+        });
+
+        if (!find_user) {
+            throw new Error(
+                'User with this email does not exist'
+            );
         }
 
-        const check_password = await bcrypt.compare(password , find_user.password);
+        const check_password = await bcrypt.compare(
+            password,
+            find_user.password
+        );
 
-        if(!check_password){
-            throw new Error('Incorrect password')
+        if (!check_password) {
+            throw new Error('Incorrect password');
         }
 
-        const jwt_token = jwt.sign({user_id : find_user.id , email : find_user.email} , process.env.JWT_SECRET_KEY , {expiresIn : '15m'})
-        const refresh_token = jwt.sign({user_id : find_user.id , email : find_user.email} , process.env.JWT_SECRET_KEY , {expiresIn : '7d'})
-        
-        const refresh_token_expiry = new Date();
-        refresh_token_expiry.setDate(refresh_token_expiry.getDate() + 7);
-        
-        await prisma.user.update({
-            where : {
-                id : find_user.id
+
+        // ACCESS TOKEN
+        const jwt_token = jwt.sign(
+
+            {
+                user_id: find_user.id,
+
+                email: find_user.email,
+
+                // IMPORTANT FOR KONG
+                iss: "my-client-key"
             },
-            data : {
-                refresh_token : refresh_token,
-                refresh_token_expiry : refresh_token_expiry
+
+            process.env.JWT_SECRET_KEY,
+
+            {
+                expiresIn: '15m'
             }
-        })
+        );
+
+
+        // REFRESH TOKEN
+        const refresh_token = jwt.sign(
+
+            {
+                user_id: find_user.id,
+
+                email: find_user.email
+            },
+
+            process.env.JWT_SECRET_KEY,
+
+            {
+                expiresIn: '7d'
+            }
+        );
+
+
+        const refresh_token_expiry = new Date();
+
+        refresh_token_expiry.setDate(
+            refresh_token_expiry.getDate() + 7
+        );
+
+
+        await prisma.user.update({
+
+            where: {
+                id: find_user.id
+            },
+
+            data: {
+
+                refresh_token: refresh_token,
+
+                refresh_token_expiry:
+                    refresh_token_expiry
+            }
+        });
+
 
         return jwt_token;
 
-
     }
-    catch(er){
-        throw er
-    }
+    catch (er) {
 
+        throw er;
+    }
 }
 
 
