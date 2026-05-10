@@ -5,7 +5,7 @@ dotenv.config()
 const app = express()
 app.use(cors())
 app.use(express.json())
-
+import prisma from './global/db_connection.js'
 const PORT = process.env.PORT || 5000
 
 
