@@ -4,3 +4,5 @@ redis/.env
 Auth_backend/.env
 
 Email_service_backend/.env
+
+kafka/.env
