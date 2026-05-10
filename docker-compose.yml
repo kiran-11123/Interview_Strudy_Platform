@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  kong:
+    image: kong:latest
+
+    environment:
+
+      KONG_DATABASE: "off"
+
+      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
+
+      KONG_PLUGINS: bundled,cookie-to-jwt
+
+      KONG_LUA_PACKAGE_PATH: /opt/?.lua;;
+
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+
+    volumes:
+      - ./kong.yml:/kong/declarative/kong.yml
+
+      - ./plugins:/opt/plugins

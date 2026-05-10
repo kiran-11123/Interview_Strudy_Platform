@@ -1,0 +1,61 @@
+_format_version: "3.0"
+
+services:
+
+  # =====================
+  # AUTH SERVICE (PUBLIC)
+  # =====================
+  - name: auth-service
+    url: http://host.docker.internal:5000
+
+    routes:
+      - name: auth-route
+        paths:
+          - /api/auth
+        strip_path: false
+
+
+  # =====================
+  # COURSE SERVICE (PROTECTED)
+  # =====================
+  - name: course-service
+    url: http://host.docker.internal:5001
+
+    routes:
+      - name: course-route
+        paths:
+          - /api/courses
+        strip_path: false
+
+    plugins:
+
+      # COOKIE -> AUTHORIZATION HEADER
+      - name: cookie-to-jwt
+
+      # JWT VALIDATION
+      - name: jwt
+
+      # RATE LIMITING
+      - name: rate-limiting
+        config:
+          minute: 100
+
+      # CORS
+      - name: cors
+        config:
+          origins:
+            - "*"
+
+          credentials: true
+
+
+# =====================
+# CONSUMERS
+# =====================
+consumers:
+
+  - username: app-user
+
+    jwt_secrets:
+      - key: my-client-key
+        secret: SECRET_KEY
