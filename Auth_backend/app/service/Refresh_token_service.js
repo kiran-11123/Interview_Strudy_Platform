@@ -1,62 +1,70 @@
 import prisma from "../../global/db_connection.js";
+import jwt from "jsonwebtoken";
 
-export const refresh_token_service = async(email)=>{
+export const refresh_token_service = async (refresh_token) => {
 
-    try{
-        const find_token = await prisma.user.findUnique({
-            where : {
-                email : email
-            }
-        })
-        
-        if(!find_token){
-            throw new Error('Invalid user')
+    try {
+
+        if (!refresh_token) {
+            throw new Error("Refresh token not provided");
         }
 
-       const refresh_token = find_token.refresh_token;
+        // 1. VERIFY JWT REFRESH TOKEN
+        const decoded = jwt.verify(
+            refresh_token,
+            process.env.JWT_SECRET_KEY
+        );
 
-       if(!refresh_token ){
-        throw new Error('Refresh Token not found')
-       }
+        const email = decoded.email;
 
-       if( find_token.refresh_token_expiry < new Date()){
+        // 2. FIND USER
+        const find_user = await prisma.user.findUnique({
+            where: {
+                email: email
+            }
+        });
+
+        if (!find_user) {
+            throw new Error("Invalid user");
+        }
+
+        // 3. CHECK TOKEN MATCH IN DB
+        if (find_user.refresh_token !== refresh_token) {
+            throw new Error("Invalid refresh token");
+        }
+
+        // 4. CHECK EXPIRY
+        if (find_user.refresh_token_expiry < new Date()) {
             await prisma.user.update({
-                where : {
-                    email : email
+                where: {
+                    email: email
                 },
-                data : {
-
-                    refresh_token : ""
+                data: {
+                    refresh_token: null
                 }
+            });
 
-           
-       })
+            throw new Error("Refresh token expired");
+        }
 
-       throw new Error('Refresh Token not found')
-
-       }
-
-       const jwt_secret = process.env.JWT_SECRET_KEY;
-
-       const jwt_token = jwt.sign(
-        {
-            user_id: find_token.id,
-            email: find_token.email,
-             // IMPORTANT FOR KONG
-                iss: "my-client-key"
-        },
-            jwt_secret,
+        // 5. GENERATE NEW ACCESS TOKEN
+        const new_access_token = jwt.sign(
             {
-                expiresIn: '15m'
+                user_id: find_user.id,
+                email: find_user.email,
+
+                // REQUIRED FOR KONG
+                iss: "my-client-key"
+            },
+            process.env.JWT_SECRET_KEY,
+            {
+                expiresIn: "15m"
             }
         );
 
-        return jwt_token;
+        return new_access_token;
 
-
-    }    catch(er){
-        throw er
+    } catch (er) {
+        throw er;
     }
-
-
-}
+};

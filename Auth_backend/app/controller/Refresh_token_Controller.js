@@ -1,47 +1,52 @@
-import { refresh_token_service } from "../service/Refresh_token_service.js";
+import { refresh_token_service as refreshTokenService } from "../service/Refresh_token_service.js";
 
+export const refresh_token_controller = async (req, res) => {
 
+    try {
 
-export const refresh_token_service = async(req,res)=>{
-     
-    try{
+        // ✅ GET FROM COOKIE (BEST PRACTICE)
+        const refresh_token = req.cookies?.refresh_token;
 
-        const {email}  = req.body;
+        if (!refresh_token) {
+            return res.status(401).json({
+                message: "Refresh token missing"
+            });
+        }
 
-        const token = await refresh_token_service(email);
+        // CALL SERVICE
+        const new_access_token = await refreshTokenService(refresh_token);
 
-       
-       res.cookie("token", token, {
+        // SET NEW ACCESS TOKEN COOKIE
+        res.cookie("token", new_access_token, {
+
             httpOnly: true,
-            secure: false, // Set to true if using HTTPS
-            sameSite: "lax", // Adjust as needed (e.g., 'strict' or 'none')
-           
+            secure: false, // true in production HTTPS
+
+            sameSite: "lax",
+
+            maxAge: 15 * 60 * 1000
         });
 
         return res.status(200).json({
-            message : "JWT token added "
-        })
+            message: "Access token refreshed successfully"
+        });
 
+    } catch (er) {
 
-    }
-    catch(er){
-         
-        if(er.message === 'Invalid user') {
+        if (er.message === "Invalid user") {
             return res.status(404).json({
-                message : 'User not found'
-            })
+                message: "User not found"
+            });
         }
-        else if(er.message === 'Refresh Token not found' ){
-            return res.status(400).json({
-                message : 'Refresh Token not found'
-            })
+
+        if (er.message === "Refresh token expired") {
+            return res.status(401).json({
+                message: "Refresh token expired"
+            });
         }
-        
 
         return res.status(500).json({
-            message : `Internal server Error ${er.message}`
-        })
-
-
+            message: `Internal Server Error: ${er.message}`
+        });
     }
-}
+};
