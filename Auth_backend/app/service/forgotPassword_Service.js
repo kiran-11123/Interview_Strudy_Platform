@@ -35,9 +35,8 @@ export const forgot_password_service = async (email) => {
             }
         });
 
-        // normally you send email here (link)
-        const reset_link = `http://localhost:5000/auth/reset-password/${reset_token}`;
-
+        // send email here
+       
         return reset_link;
 
     } catch (er) {

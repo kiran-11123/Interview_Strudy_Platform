@@ -20,5 +20,8 @@ model User{
     password String 
     refresh_token String?
     refresh_token_expiry DateTime?
+
+    reset_password_token String?
+    reset_password_expiry DateTime?
     createdAt DateTime @default(now())
 }

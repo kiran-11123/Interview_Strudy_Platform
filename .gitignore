@@ -2,3 +2,5 @@ Courses_backend/.env
 redis/.env
 
 Auth_backend/.env
+
+Email_service_backend/.env
