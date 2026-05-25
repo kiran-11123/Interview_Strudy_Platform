@@ -7,7 +7,7 @@ import Auth_email_router from './app/routes/Auth_email.js';
 const port = process.env.PORT ;
 
 
-app.use('/v1/email' , Auth_email_router)
+app.use('/email' , Auth_email_router)
 
 
 

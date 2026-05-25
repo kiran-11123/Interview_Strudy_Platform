@@ -25,7 +25,7 @@ await Email_Consumer.run({
       try{
         const data = JSON.parse(message.value.toString());
        
-       const response =  await axios.post(`${Email_url}`, data, {
+       const response =  await axios.post(`${Email_url}/email/forgot-password-email`, data, {
           withCredentials: true
         })
 
