@@ -60,8 +60,10 @@ export const get_topics_course_service = async(course_id)=>{
       
     try{
 
+        const course_id_new = new mongoose.Types.ObjectId(course_id);
 
-        const check_course = await course_model.findById(course_id);
+
+        const check_course = await course_model.findById(course_id_new);
 
         if(!check_course){
             throw new Error('Course not found');
@@ -83,7 +85,7 @@ export const get_topics_course_service = async(course_id)=>{
             console.error(`Error while getting course_topics in redis with id ${course_id} `) 
         }
 
-        const get_data = await course_model.findById(course_id).populate('course_topics');
+        const get_data = await course_model.findById(course_id_new).populate('course_topics');
 
         if(!get_data){
             throw new Error('Course not found');
