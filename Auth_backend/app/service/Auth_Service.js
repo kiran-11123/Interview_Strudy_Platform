@@ -1,5 +1,5 @@
 import prisma from "../../global/db_connection.js";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 export const register_user_service = async(name , email , password)=>{
@@ -49,11 +49,12 @@ export const register_user_service = async(name , email , password)=>{
 }
 export const login_user_service = async (email, password) => {
 
+
     try {
 
         const find_user = await prisma.user.findUnique({
             where: {
-                email: email
+                 email
             }
         });
 
@@ -77,7 +78,7 @@ export const login_user_service = async (email, password) => {
         const jwt_token = jwt.sign(
 
             {
-                user_id: find_user.id,
+                user_id: find_user.userId,
 
                 email: find_user.email,
 
@@ -97,7 +98,7 @@ export const login_user_service = async (email, password) => {
         const refresh_token = jwt.sign(
 
             {
-                user_id: find_user.id,
+                user_id: find_user.userId,
 
                 email: find_user.email
             },
@@ -120,7 +121,7 @@ export const login_user_service = async (email, password) => {
         await prisma.user.update({
 
             where: {
-                id: find_user.id
+                userId: find_user.userId
             },
 
             data: {

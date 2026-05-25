@@ -32,6 +32,8 @@ export const login_user_controller = async(req , res)=>{
         const { email , password } = req.body;
 
         const token = await login_user_service(email , password);
+
+        console.log(token)
         
 
 
@@ -49,6 +51,8 @@ export const login_user_controller = async(req , res)=>{
 
     }
     catch(er){
+
+        console.log(er)
         res.status(400).json({
             success : false,
             message : er.message

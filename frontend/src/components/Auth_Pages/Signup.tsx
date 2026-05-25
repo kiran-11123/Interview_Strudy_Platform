@@ -18,9 +18,9 @@ export default function Register() {
         try{
 
             const response :any = await axios.post(`${BASEURL}auth/signup`,{  
-            email,
-            username ,
-            password
+            name : username,
+                email : email ,
+           password :  password
                 
             } ,{
                 withCredentials : true
@@ -141,7 +141,7 @@ export default function Register() {
                 </div>
 
                 {message && (
-                    <p className="font-black text-md text-center sm:text-lg mb-5">{message} </p>
+                    <p className=" text-center sm:text-md mb-5">{message} </p>
                 )}
 
 

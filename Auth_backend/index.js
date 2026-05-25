@@ -4,7 +4,11 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser';
 dotenv.config()
 const app = express()
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+})  )
+
 app.use(express.json())
 import prisma from './global/db_connection.js'
 const PORT = process.env.PORT || 5000
@@ -15,8 +19,8 @@ app.use(cookieParser());
 
 
 
-app.use('/auth', Auth_Routes)
-app.use("/token" , Refresh_Token_Router)
+app.use('/api/v1/auth', Auth_Routes)
+app.use("api/v1/token" , Refresh_Token_Router)
 
 
 app.listen(PORT, () => {

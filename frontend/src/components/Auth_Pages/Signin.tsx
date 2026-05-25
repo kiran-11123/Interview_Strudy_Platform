@@ -1,13 +1,70 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const BASEURL = import.meta.env.VITE_BASE_API;
 export default function Signin(){
+
+    const navigate = useNavigate()
 
     const[password , SetPassword] = useState("")
     const[email , SetEmail] = useState("")
     const[message , SetMessage] = useState("")
 
-    function SubmitForm(e: React.FormEvent<HTMLFormElement>){
+
+    async function SubmitForm(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault()
+
+        try{
+
+            const response =await axios.post(`${BASEURL}auth/signin` , {
+                email,
+                password
+            }, {
+                withCredentials: true
+            })
+
+            console.log(response)
+
+            
+
+            if(response.status === 200){
+
+                  SetMessage(response.data.message);
+
+                  localStorage.setItem('isAuthenticated', 'true');
+
+                 setTimeout(()=>{
+                    navigate('/home');
+                 } , 1000)
+
+                  
+            }
+            else{
+                  
+                 SetMessage(response.data.message);
+            }
+
+        }
+        catch(er : any){
+            if(er.response?.data?.message){
+                SetMessage(er.response.data.message);
+            }
+            else if(er.message){
+                SetMessage(er.message);
+            }
+            else{
+                SetMessage("An error occurred during Login. Please try again later.")
+            }
+        }
+        finally{
+             setTimeout(()=>{
+                 SetEmail('');
+                 SetPassword('');
+                SetMessage('');
+             } , 2000)
+        }
+        
 
 
     }
@@ -78,7 +135,7 @@ export default function Signin(){
                 </div>
 
                 {message && (
-                    <p className="font-black text-md text-center sm:text-lg mb-5">{message} </p>
+                    <p className="text-center sm:text-md mb-5">{message} </p>
                 )}
 
 
