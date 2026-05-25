@@ -24,18 +24,18 @@ export default function DashBoard(){
 
 
 
-               <div className="flex  max-w-sm sm:max-w-4xl text-sm sm:text-lg md:text-xl font-bold  lg:max-w-full items-center justify-between bg-gradient-to-r from-blue-900 to-violet-800 text-white w-full rounded-lg px-5 py-3 cursor-pointer">
-                    <div className="px-4 py-2 rounded-md ">
+               <div className="flex  max-w-sm sm:max-w-4xl text-sm sm:text-lg md:text-lg   lg:max-w-full items-center justify-between bg-gradient-to-r from-blue-900 to-violet-800 text-white w-full rounded-lg px-5 py-3 cursor-pointer ">
+                    <div className="px-4 py-2 rounded-md font-bold">
                          Interview Prep
                     </div>
 
-                    <div className="hidden sm:flex  items-center justify-between gap-10 font-roboto">
+                    <div className="hidden sm:flex  items-center justify-between gap-10 font-serif">
 
-                         <button onClick={ToLogin} className="px-4 py-2 cursor-pointer hover:bg-gradient-to-tr from-white/20 via-white/30 to-transparent  rounded-md  shadow-md">
+                         <button onClick={ToLogin} className="px-4 py-2 cursor-pointer hover:bg-gradient-to-tr from-white/20 via-white/10 to-transparent  rounded-md  shadow-md">
                               Login
                          </button>
 
-                         <button onClick={ToRegister} className="px-4 py-2 cursor-pointer hover:bg-gradient-to-tr from-white/20 via-white/30 to-transparent  rounded-md  shadow-md">
+                         <button onClick={ToRegister} className="px-4 py-2 cursor-pointer hover:bg-gradient-to-tr from-white/20 via-white/10 to-transparent  rounded-md  shadow-md">
                               Register
                          </button>
 
@@ -56,7 +56,7 @@ export default function DashBoard(){
 
 
 
-               <div className="flex flex-col items-center font-poppins gap-6 justify-center w-full px-4 cursor-pointer">
+               <div className="flex flex-col items-center font-poppins gap-6 justify-center w-full px-4 cursor-pointer font-roboto">
 
                     {open && (
                          <div className="sm:hidden w-full max-w-xl px-6 mt-2 flex flex-col gap-2 bg-[#0f0c29]  text-white rounded-xl shadow-lg text-center text-sm py-4">
