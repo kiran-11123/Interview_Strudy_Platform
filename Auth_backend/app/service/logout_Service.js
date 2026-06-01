@@ -4,6 +4,8 @@ export const logout_user_service = async (email) => {
 
     try {
 
+        console.log('Email in logout_service' , email)
+
         const find_user = await prisma.user.findUnique({
             where: {
                 email: email
