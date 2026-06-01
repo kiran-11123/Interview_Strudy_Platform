@@ -11,3 +11,23 @@ export function useHomeNavigation (){
 
     return {ToHome};
 }
+
+export function useProfile(){
+    const navigate = useNavigate();
+
+    function ToProfile(){
+        navigate("/profile")
+    }
+
+    return {ToProfile};
+}
+
+export function useDashBoard(){
+    const navigate = useNavigate();
+
+    function ToDashBoard(){
+        navigate("/")
+    }
+
+    return {ToDashBoard};
+}
