@@ -118,12 +118,12 @@ export const login_user_service = async (email, password) => {
             refresh_token_expiry.getDate() + 7
         );
 
-        console.log(new_refresh_token , refresh_token_expiry)
 
+    await prisma.$transaction(async( tx )=>{
 
-        await prisma.user.update({
+        await tx.user.update({
 
-            where: {
+             where: {
                 userId: find_user.userId
             },
 
@@ -134,7 +134,11 @@ export const login_user_service = async (email, password) => {
                 refresh_token_expiry:
                     refresh_token_expiry
             }
-        });
+
+        })
+
+    })
+       
 
 
         return { jwt_token , isAdmin: find_user.isAdmin };

@@ -33,7 +33,6 @@ export const login_user_controller = async(req , res)=>{
 
         const {jwt_token , isAdmin} = await login_user_service(email , password);
 
-        console.log(jwt_token , isAdmin)
         
 
 

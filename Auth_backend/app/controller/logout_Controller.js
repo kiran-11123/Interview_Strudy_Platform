@@ -6,7 +6,6 @@ export const logout_user_controller = async (req, res) => {
 
         const  email = req.user.email;
 
-        console.log('Email in logout_controller' , email)
 
 
         // 1. clear DB refresh token
