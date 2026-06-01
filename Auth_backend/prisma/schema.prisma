@@ -18,10 +18,12 @@ model User{
     email String @unique
     username String @unique
     password String 
+    isAdmin Boolean @default(false)
     refresh_token String?
     refresh_token_expiry DateTime?
 
     reset_password_token String?
     reset_password_expiry DateTime?
     createdAt DateTime @default(now())
+    
 }

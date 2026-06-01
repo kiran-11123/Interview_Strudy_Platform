@@ -13,11 +13,16 @@ export default function Navbar({items}: {items: NavItems}){
     
     const [navitems, setNavitems] = useState<NavItems>(items);
     const home = useHomeNavigation();
-    const mapping  : Record<string, JSX.Element> = {
+    const mapping_icons  : Record<string, JSX.Element> = {
         profile: <UserPen className="h-5 w-5" />,
         createNotes: <CirclePlus className="h-5 w-5" />,
         AddCourses: <CirclePlus className="h-5 w-5" />,
         logout: <LogOut className="h-5 w-5" />
+    }
+
+
+    function ToDisplay(key: string | null): void {
+      return;
     }
 
      
@@ -30,14 +35,14 @@ export default function Navbar({items}: {items: NavItems}){
 
              <div className="flex items-center justify-between gap-5">
 
-                {Object.values(navitems ?? {}).map((item) =>
-                    item ? (
-                        <button key={item} >
-                          
-                            {mapping[item] || item}
-                        </button>
-                    ) : null
-                )}
+               {Object.entries(items).map(([key, value]) =>
+          value ? (
+            <button key={key} className="flex items-center gap-2" onClick={() => ToDisplay(key)}>
+              {mapping_icons[key]}
+              <span>{value}</span>
+            </button>
+          ) : null
+        )}
       
           
         </div>

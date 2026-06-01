@@ -31,9 +31,9 @@ export const login_user_controller = async(req , res)=>{
     try{
         const { email , password } = req.body;
 
-        const token = await login_user_service(email , password);
+        const {token , isAdmin} = await login_user_service(email , password);
 
-        console.log(token)
+        console.log(token , isAdmin)
         
 
 
@@ -46,6 +46,7 @@ export const login_user_controller = async(req , res)=>{
         res.status(200).json({
             success : true,
             message : 'User logged in successfully',
+            isAdmin : isAdmin
 
         })  
 

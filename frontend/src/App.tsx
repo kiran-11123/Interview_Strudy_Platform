@@ -12,6 +12,7 @@ function App() {
     const isAuthenticated = localStorage.getItem('isAuthenticated') ;
     const parsedAuth = isAuthenticated ? JSON.parse(isAuthenticated) : null;
     const isAuthValid = parsedAuth && parsedAuth.isAuthenticated && parsedAuth.expiry > Date.now();
+    const   isAdmin = parsedAuth && parsedAuth.isAdmin;
 
     if(!isAuthValid){
       localStorage.removeItem('isAuthenticated');
@@ -32,7 +33,7 @@ function App() {
           path="/home"
           element={
             <ProtectedRoute isAuthenticated={isAuthValid ?true : false}>
-              <HomePage />
+              <HomePage isAdmin={isAdmin} />
             </ProtectedRoute>
           } />
 

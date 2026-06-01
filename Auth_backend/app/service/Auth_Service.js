@@ -81,9 +81,10 @@ export const login_user_service = async (email, password) => {
                 user_id: find_user.userId,
 
                 email: find_user.email,
+                role : find_user.isAdmin
 
                 // IMPORTANT FOR KONG
-                iss: "my-client-key"
+               // iss: "my-client-key"
             },
 
             process.env.JWT_SECRET_KEY,
@@ -95,7 +96,7 @@ export const login_user_service = async (email, password) => {
 
 
         // REFRESH TOKEN
-        const refresh_token = jwt.sign(
+        const new_refresh_token = jwt.sign(
 
             {
                 user_id: find_user.userId,
@@ -111,11 +112,13 @@ export const login_user_service = async (email, password) => {
         );
 
 
-        const refresh_token_expiry = new Date();
+        const refresh_token_expiry = new Date() ;
 
         refresh_token_expiry.setDate(
             refresh_token_expiry.getDate() + 7
         );
+
+        console.log(new_refresh_token , refresh_token_expiry)
 
 
         await prisma.user.update({
@@ -126,7 +129,7 @@ export const login_user_service = async (email, password) => {
 
             data: {
 
-                refresh_token: refresh_token,
+                refresh_token: new_refresh_token,
 
                 refresh_token_expiry:
                     refresh_token_expiry
@@ -134,7 +137,7 @@ export const login_user_service = async (email, password) => {
         });
 
 
-        return jwt_token;
+        return { jwt_token , isAdmin: find_user.isAdmin };
 
     }
     catch (er) {
