@@ -9,7 +9,15 @@ import ProtectedRoute from './protectedRoute';
 
 
 function App() {
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    const isAuthenticated = localStorage.getItem('isAuthenticated') ;
+    const parsedAuth = isAuthenticated ? JSON.parse(isAuthenticated) : null;
+    const isAuthValid = parsedAuth && parsedAuth.isAuthenticated && parsedAuth.expiry > Date.now();
+
+    if(!isAuthValid){
+      localStorage.removeItem('isAuthenticated');
+    }
+
+
 
   return(
     <BrowserRouter >
@@ -23,7 +31,7 @@ function App() {
         <Route
           path="/home"
           element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
+            <ProtectedRoute isAuthenticated={isAuthValid ?true : false}>
               <HomePage />
             </ProtectedRoute>
           } />

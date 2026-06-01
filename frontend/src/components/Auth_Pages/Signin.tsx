@@ -32,11 +32,18 @@ export default function Signin(){
 
                   SetMessage(response.data.message);
 
-                  localStorage.setItem('isAuthenticated', 'true');
+                  const item = {
+                     isAuthenticated : true,
+                     expiry : Date.now() + 60 * 60 * 1000 // 1 hour
 
-                 setTimeout(()=>{
-                    navigate('/home');
-                 } , 1000)
+                  }
+
+                  localStorage.setItem('isAuthenticated', JSON.stringify(item) );
+                  
+
+                
+                navigate('/home');
+                 
 
                   
             }
