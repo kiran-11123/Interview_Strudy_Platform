@@ -11,9 +11,6 @@ dotenv.config({ path: envPath });
 
 const MAIL_PASSWORD = process.env.GMAIL_APP_PASSWORD;
 
-console.log("Gmail App Password loaded:", MAIL_PASSWORD ? `✓ Set (length: ${MAIL_PASSWORD.length})` : "✗ Not set");
-console.log("Password value:", MAIL_PASSWORD);
-console.log("Env path resolved to:", envPath);
 
 const transporter = nodemailer.createTransport({
   service: "gmail",

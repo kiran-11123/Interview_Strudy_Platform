@@ -8,7 +8,6 @@ export const Email_controller = async(req,res)=>{
        
     try{
 
-        console.log("Request received in Email Controller with data " , req.body);
 
          const data = req.body;
          const result = await Auth_Email_Servive(data)

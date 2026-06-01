@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import notes_model from "../../../global/mongoDB/mongo_db_schema's/user_notes/notes_schema.js";
 import workspace_model from "../../../global/mongoDB/mongo_db_schema's/user_notes/workspace_schema.js";
+import redis_client from "../../../../redis/index.js";
+
 
 export const create_notes_service = async (
     workspace_id,

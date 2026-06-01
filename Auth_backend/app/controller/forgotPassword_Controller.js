@@ -11,7 +11,7 @@ export const forgot_password_controller = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Password reset link generated",
-            reset_link
+            
         });
 
     } catch (er) {
