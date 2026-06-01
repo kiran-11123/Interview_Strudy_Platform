@@ -34,7 +34,8 @@ export default function Signin(){
 
                   const item = {
                      isAuthenticated : true,
-                     expiry : Date.now() + 60 * 60 * 1000 // 1 hour
+                     expiry : Date.now() + 60 * 60 * 1000  , // 1 hour,
+                     isAdmin : response.data.isAdmin
 
                   }
 
