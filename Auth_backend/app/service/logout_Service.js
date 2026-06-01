@@ -4,6 +4,7 @@ export const logout_user_service = async (email) => {
 
     try {
 
+
         const find_user = await prisma.user.findUnique({
             where: {
                 email: email
@@ -14,15 +15,21 @@ export const logout_user_service = async (email) => {
             throw new Error("User not found");
         }
 
-        await prisma.user.update({
-            where: {
+
+        await prisma.$transaction(async(tx)=>{
+              
+            await tx.user.update({
+                  where: {
                 email: email
             },
             data: {
                 refresh_token: null,
                 refresh_token_expiry: null
             }
-        });
+            })
+        })
+
+       
 
         return true;
 

@@ -17,7 +17,6 @@ interface NavItems{
 
 export default function Navbar({items}: {items: NavItems}){
     
-    const [navitems, setNavitems] = useState<NavItems>(items);
     const home = useHomeNavigation();
     const profile = useProfile();
     const dashBoard = useDashBoard();
@@ -66,6 +65,8 @@ export default function Navbar({items}: {items: NavItems}){
          switch(key){
             case  "profile" : profile.ToProfile() ; break;
             case "createNotes" : console.log("Create Notes") ; break;
+            case "AddCourses" : console.log("Add Courses") ; break;
+            case "logout" : ToLogout() ; break;
          }
     }
     

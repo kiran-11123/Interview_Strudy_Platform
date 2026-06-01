@@ -31,13 +31,12 @@ export const login_user_controller = async(req , res)=>{
     try{
         const { email , password } = req.body;
 
-        const {token , isAdmin} = await login_user_service(email , password);
+        const {jwt_token , isAdmin} = await login_user_service(email , password);
 
-        console.log(token , isAdmin)
         
 
 
-       res.cookie("token", token, {
+       res.cookie("token", jwt_token, {
             httpOnly: true,
             secure: false, // Set to true if using HTTPS
             sameSite: "lax", // Adjust as needed (e.g., 'strict' or 'none')
