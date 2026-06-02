@@ -3,7 +3,7 @@ import { StickyNotePlus  , UserPen  , CirclePlus , LogOut  , Menu} from "lucide-
 import { useHomeNavigation , useProfile , useDashBoard} from "../global/global_functions"
 import axios from "axios"
 import DashBoard from "../Dashboard/DashBoard";
-import type { CreateWorkspace } from "../global/create_workspace";
+import  { CreateWorkspace } from "../global/create_workspace";
 
 
 const BASEURL = import.meta.env.VITE_BASE_API;
@@ -29,6 +29,8 @@ export default function Navbar({items}: {items: NavItems}){
     }
     
     const[open ,isOpen] = useState(false);
+    const[WorkSpaceopenModal , setWorkSpaceOpenModal] = useState(false);
+
 
     
     async function ToLogout(){
@@ -54,7 +56,11 @@ export default function Navbar({items}: {items: NavItems}){
         }
        
     }
-
+   
+    function ToCreateWorkspace(){
+         
+        setWorkSpaceOpenModal(true);
+    }
   
 
 
@@ -65,7 +71,7 @@ export default function Navbar({items}: {items: NavItems}){
          
          switch(key){
             case  "profile" : profile.ToProfile() ; break;
-            case "createNotes" : console.log("Create Notes") ; break;
+            case "createWorkspace" : ToCreateWorkspace() ; break;
             case "AddCourses" : console.log("Add Courses") ; break;
             case "logout" : ToLogout() ; break;
          }
@@ -115,6 +121,8 @@ export default function Navbar({items}: {items: NavItems}){
             </div>
             
         )}
+
+        <CreateWorkspace isOpen={WorkSpaceopenModal} onClose={()=>setWorkSpaceOpenModal(false)} />
 
     </>
     )
