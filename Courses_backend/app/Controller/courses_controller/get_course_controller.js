@@ -53,7 +53,7 @@ export const get_all_courses_controller = async(req,res)=>{
 
          return res.status(200).json({  
             message : "Data Fetched Successfully",
-            data : result
+            courses : result
          })
 
     }

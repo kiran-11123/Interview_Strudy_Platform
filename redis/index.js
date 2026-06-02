@@ -10,9 +10,9 @@ const redis_client= createClient({
      url : `redis://${redis_HOST}:${redis_PORT}`
 })
 
-redis_client.on('error', (err) => console.log('Redis Client Error', err));
+//redis_client.on('error', (err) => console.log('Redis Client Error', err));
 
-await redis_client.connect();
+//await redis_client.connect();
 
 console.log('Redis client connected successfully');
 
