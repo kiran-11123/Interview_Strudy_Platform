@@ -5,7 +5,9 @@ export const create_Workspace_controller = async(req , res)=>{
      
     try{
 
-        const {workspace_name , user_id } = req.body;
+        const {workspace_name  } = req.body;
+
+        const user_id = req.user.user_id;
 
         if(!workspace_name || !user_id) return res.status(404).json({
             message : 'Invalid Inputs'
@@ -13,12 +15,16 @@ export const create_Workspace_controller = async(req , res)=>{
 
         const result = await Create_WorkSpace_service(workspace_name , user_id)
 
+        console.log(result);
+
         return res.status(200).json({
             message : 'workspace created successfully'
         })
 
     }
     catch(er){
+
+        console.log(er);
          
         if(er.message === 'WorkSpace with this name is already created'){
             return res.status(400).json({
@@ -38,7 +44,8 @@ export const update_workspace_controller = async(req,res)=>{
     try{
 
         const {workspace_id} = req.params;
-        const {new_workspace_name , user_id} = req.body;
+        const {new_workspace_name } = req.body;
+        const user_id = req.user.user_id;
 
         if(!workspace_id || !new_workspace_name || !user_id){
             return res.status(400).json({
@@ -78,7 +85,7 @@ export const delete_workspace_controller = async(req,res)=>{
     try{
 
         const {workspace_id} = req.params;
-        const {user_id} = req.body;
+        const user_id = req.user.user_id;
         if(!workspace_id || !user_id){
             return res.status(400).json({
                 message : 'Invalid Inputs'
@@ -112,7 +119,7 @@ export const get_user_workspaces_controller = async(req,res)=>{
 
         console.log(req.body);
 
-        const {user_id} = req.body;
+        const user_id = req.user.user_id;
 
         if(!user_id){
             return res.status(400).json({
@@ -140,7 +147,7 @@ export const get_workspace_controller = async(req,res)=>{
      
     try{    
         const {workspace_id} = req.params;
-        const {user_id} = req.body;
+        const user_id = req.user.user_id;
 
         if(!workspace_id || !user_id){  
 

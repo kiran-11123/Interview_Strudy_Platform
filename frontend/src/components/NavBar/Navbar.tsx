@@ -2,7 +2,6 @@ import { useState, type JSX } from "react"
 import { StickyNotePlus  , UserPen  , CirclePlus , LogOut  , Menu} from "lucide-react"
 import { useHomeNavigation , useProfile , useDashBoard} from "../global/global_functions"
 import axios from "axios"
-import DashBoard from "../Dashboard/DashBoard";
 import  { CreateWorkspace } from "../global/create_workspace";
 
 
@@ -24,7 +23,7 @@ export default function Navbar({items}: {items: NavItems}){
     const mapping_icons  : Record<string, JSX.Element> = {
         profile: <UserPen className="h-5 w-5" />,
         createWorkspace : <CirclePlus className="h-5 w-5" />,
-        AddCourses: <CirclePlus className="h-5 w-5" />,
+        AddCourses: <StickyNotePlus className="h-5 w-5" />,
         logout: <LogOut className="h-5 w-5" />
     }
     
@@ -40,18 +39,24 @@ export default function Navbar({items}: {items: NavItems}){
             const response = await axios.post(`${BASEURL}auth/logout` , {} , {
                 withCredentials: true
             })
-
+            
             if(response.status === 200){
 
                 localStorage.removeItem("isAuthenticated");
                 dashBoard.ToDashBoard()
                 
             }
+           
 
         }
-        catch(er){
+        catch(error : any){
 
-            console.log(er);
+            if (error.response?.status === 401) {
+
+        localStorage.removeItem("isAuthenticated");
+        dashBoard.ToDashBoard();
+    }
+
 
         }
        

@@ -1,6 +1,9 @@
 
 import { X } from 'lucide-react';
 import { useState } from 'react';
+import axios from 'axios';
+
+const Course_API_URL = import.meta.env.VITE_Courses_API
 
 export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?: () => void }) {
 
@@ -14,8 +17,48 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
     async function handleSubmit(e: any) {
 
         e.preventDefault();
+
+
+    try {
+
+    const response = await axios.post(
+        `${Course_API_URL}workspaces/create`,
+        {
+            workspace_name: title
+        },
+        {
+            withCredentials: true
+        }
+    );
+
+    setMessage(response.data.message);
+
+    setTimeout(() => {
+        setMessage("");
+        setTitle("");
+        onClose && onClose();
+    }, 2000);
+
+}
+catch (error: any) {
+
+    if (error.response?.status === 401) {
+
+        setMessage("Unauthorized. Please login again.");
+        localStorage.removeItem("isAuthenticated");
+
+    }
+    else {
+
+        setMessage(
+            error.response?.data?.message ||
+            "Something went wrong"
+        );
     }
 
+}
+
+    }
 
 
     return (
@@ -44,7 +87,7 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
                         onChange={(e) => setTitle(e.target.value)}
                         required
                         value={title}
-                        className="w-full px-4 py-2 rounded-md border-2 text-black font-bold border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className="w-full px-4 py-2 rounded-md border-2 text-black font-semibold border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
                         placeholder="Enter Workspace Name"
                         type="text"
                     />
@@ -55,7 +98,7 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
                         </button>
                     </div>
 
-                    {message && <p className="text-right text-sm text-red-500">{message}</p>}
+                    {message && <p className="text-right text-black text-md">{message}</p>}
 
                 </form>
 

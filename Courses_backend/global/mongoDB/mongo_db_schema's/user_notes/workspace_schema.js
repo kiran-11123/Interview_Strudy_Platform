@@ -8,7 +8,7 @@ const workspace_schema = new mongoose.Schema({
         required : true
     },
 
-     userid :{type:Number  , required:true  , unique:true },
+     userid :{type:Number , required:true },
 
      notes : [{
              notes_id : {
