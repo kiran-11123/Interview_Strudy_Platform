@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 
 
 export function useHomeNavigation (){
@@ -26,7 +26,7 @@ export function useDashBoard(){
     const navigate = useNavigate();
 
     function ToDashBoard(){
-        navigate("/")
+        navigate("/" , { replace: true })
     }
 
     return {ToDashBoard};
