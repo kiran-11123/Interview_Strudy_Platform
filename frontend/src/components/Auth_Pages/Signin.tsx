@@ -43,7 +43,7 @@ export default function Signin(){
                   
 
                 
-                navigate('/home');
+                navigate('/home', { replace: true } );
                  
 
                   

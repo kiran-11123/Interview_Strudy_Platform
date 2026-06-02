@@ -3,13 +3,14 @@ import { StickyNotePlus  , UserPen  , CirclePlus , LogOut  , Menu} from "lucide-
 import { useHomeNavigation , useProfile , useDashBoard} from "../global/global_functions"
 import axios from "axios"
 import DashBoard from "../Dashboard/DashBoard";
+import type { CreateWorkspace } from "../global/create_workspace";
 
 
 const BASEURL = import.meta.env.VITE_BASE_API;
 
 interface NavItems{
     profile? : string
-    createNotes ? : string
+    createWorkspace ? : string
     AddCourses ?  :string
     logout? : string
      
@@ -22,7 +23,7 @@ export default function Navbar({items}: {items: NavItems}){
     const dashBoard = useDashBoard();
     const mapping_icons  : Record<string, JSX.Element> = {
         profile: <UserPen className="h-5 w-5" />,
-        createNotes: <CirclePlus className="h-5 w-5" />,
+        createWorkspace : <CirclePlus className="h-5 w-5" />,
         AddCourses: <CirclePlus className="h-5 w-5" />,
         logout: <LogOut className="h-5 w-5" />
     }
@@ -54,7 +55,7 @@ export default function Navbar({items}: {items: NavItems}){
        
     }
 
-
+  
 
 
 
