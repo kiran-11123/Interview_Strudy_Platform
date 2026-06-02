@@ -1,6 +1,9 @@
 
 import { X } from 'lucide-react';
 import { useState } from 'react';
+import axios from 'axios';
+
+const Course_API_URL = import.meta.env.VITE_Courses_API
 
 export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?: () => void }) {
 
@@ -14,6 +17,35 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
     async function handleSubmit(e: any) {
 
         e.preventDefault();
+
+
+        try{
+
+            const response =  await axios.post(`${Course_API_URL}workspaces/create` , {
+                workspace_name : title
+            } , {
+                withCredentials: true
+            })
+           
+            if(response.status === 200){
+                setMessage(response.data.message);
+                setTitle("");
+            }
+            else{
+                setMessage(response.data.message);
+            }
+
+        }
+        catch(error){
+            setMessage("An error occurred while creating the workspace. Please try again.");
+        }
+        finally{
+             
+            setMessage("");
+            setTitle("");
+
+            onClose && onClose();
+        }
     }
 
 

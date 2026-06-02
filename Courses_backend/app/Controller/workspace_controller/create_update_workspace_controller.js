@@ -5,7 +5,9 @@ export const create_Workspace_controller = async(req , res)=>{
      
     try{
 
-        const {workspace_name , user_id } = req.body;
+        const {workspace_name  } = req.body;
+
+        const user_id = req.user.userId;
 
         if(!workspace_name || !user_id) return res.status(404).json({
             message : 'Invalid Inputs'
