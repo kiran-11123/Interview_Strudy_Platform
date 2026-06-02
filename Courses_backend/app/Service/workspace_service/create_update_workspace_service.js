@@ -10,6 +10,7 @@ export const Create_WorkSpace_service = async(workspace_name , user_id)=>{
         
         const find_workspace = await workspace_model.findOne({ workspace_name : workspace_name  , userid : user_id});
 
+
         if(find_workspace){
             throw new Error('WorkSpace with this name is already created')
         }
@@ -22,7 +23,7 @@ export const Create_WorkSpace_service = async(workspace_name , user_id)=>{
         })
 
         await new_workspace.save();
-
+        
         return new_workspace;
 
     }

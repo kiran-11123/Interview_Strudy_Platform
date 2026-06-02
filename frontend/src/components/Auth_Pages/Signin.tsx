@@ -40,11 +40,11 @@ export default function Signin(){
                   }
 
                   localStorage.setItem('isAuthenticated', JSON.stringify(item) );
-                  
-
                 
-                navigate('/home', { replace: true } );
-                 
+                setTimeout(() => {
+                    navigate('/home', { replace: true });
+                }, 1000);
+                
 
                   
             }

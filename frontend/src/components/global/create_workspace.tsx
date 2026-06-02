@@ -19,35 +19,46 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
         e.preventDefault();
 
 
-        try{
+    try {
 
-            const response =  await axios.post(`${Course_API_URL}workspaces/create` , {
-                workspace_name : title
-            } , {
-                withCredentials: true
-            })
-           
-            if(response.status === 200){
-                setMessage(response.data.message);
-                setTitle("");
-            }
-            else{
-                setMessage(response.data.message);
-            }
+    const response = await axios.post(
+        `${Course_API_URL}workspaces/create`,
+        {
+            workspace_name: title
+        },
+        {
+            withCredentials: true
+        }
+    );
 
-        }
-        catch(error){
-            setMessage("An error occurred while creating the workspace. Please try again.");
-        }
-        finally{
-             
-            setMessage("");
-            setTitle("");
+    setMessage(response.data.message);
 
-            onClose && onClose();
-        }
+    setTimeout(() => {
+        setMessage("");
+        setTitle("");
+        onClose && onClose();
+    }, 2000);
+
+}
+catch (error: any) {
+
+    if (error.response?.status === 401) {
+
+        setMessage("Unauthorized. Please login again.");
+        localStorage.removeItem("isAuthenticated");
+
+    }
+    else {
+
+        setMessage(
+            error.response?.data?.message ||
+            "Something went wrong"
+        );
     }
 
+}
+
+    }
 
 
     return (
@@ -76,7 +87,7 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
                         onChange={(e) => setTitle(e.target.value)}
                         required
                         value={title}
-                        className="w-full px-4 py-2 rounded-md border-2 text-black font-bold border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className="w-full px-4 py-2 rounded-md border-2 text-black font-semibold border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
                         placeholder="Enter Workspace Name"
                         type="text"
                     />
@@ -87,7 +98,7 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
                         </button>
                     </div>
 
-                    {message && <p className="text-right text-sm text-red-500">{message}</p>}
+                    {message && <p className="text-right text-black text-md">{message}</p>}
 
                 </form>
 
