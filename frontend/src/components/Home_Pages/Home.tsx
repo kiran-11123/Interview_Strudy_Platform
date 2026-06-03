@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 const Courses_API_URL = import.meta.env.VITE_Courses_API
+import { CourseCard } from "../Courses/course_card"
 
 export default  function HomePage({ isAdmin }: { isAdmin: boolean }){
 
@@ -53,11 +54,24 @@ export default  function HomePage({ isAdmin }: { isAdmin: boolean }){
             </div>
             
 
-           <div className="grid grid-cols-1 mt-20 sm:grid-cols-3 p-4 justify-center items-center md:grid-cols-4 gap-6 ">
+         <div className="grid grid-cols-1 mt-20 sm:grid-cols-3 p-4 justify-center items-center md:grid-cols-4 gap-6">
 
-                Welcome Home 
+    {coursesData.length === 0 ? (
+        <div className="col-span-full flex justify-center items-center">
+            <h1 className="text-gray-400 text-lg font-medium">
+                No courses available
+            </h1>
+        </div>
+    ) : (
+        coursesData.map((course) => (
+            <CourseCard
+                course={course}
+                delete={isAdmin}
+            />
+        ))
+    )}
 
-            </div>
+</div>
              
         </div>
 

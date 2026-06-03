@@ -21,6 +21,7 @@ export const get_course_controller = async(req , res)=>{
         })
 
     }
+    
     catch(er){
            
         if(er.message === 'Course not found'){
