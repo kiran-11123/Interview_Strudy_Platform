@@ -8,14 +8,21 @@ import { CreateCourse } from "../Courses/create_course";
 const BASEURL = import.meta.env.VITE_BASE_API;
 
 interface NavItems{
+    title ? : string
     profile? : string
     createWorkspace ? : string
+    AddTopics ? : string
     AddCourses ?  :string
     logout? : string
      
 }
 
-export default function Navbar({items}: {items: NavItems}){
+interface NavBarProps {
+    title  : string
+    items : NavItems
+}
+
+export default function Navbar({items, title}: NavBarProps){
     
     const home = useHomeNavigation();
     const profile = useProfile();
@@ -23,6 +30,7 @@ export default function Navbar({items}: {items: NavItems}){
     const mapping_icons  : Record<string, JSX.Element> = {
         profile: <UserPen className="h-5 w-5" />,
         createWorkspace : <CirclePlus className="h-5 w-5" />,
+        AddTopics: <StickyNotePlus className="h-5 w-5" />,
         AddCourses: <StickyNotePlus className="h-5 w-5" />,
         logout: <LogOut className="h-5 w-5" />
     }
@@ -30,6 +38,7 @@ export default function Navbar({items}: {items: NavItems}){
     const[open ,isOpen] = useState(false);
     const[WorkSpaceopenModal , setWorkSpaceOpenModal] = useState(false);
     const[CourseOpenModal , setCourseOpenModal] = useState(false);
+    const[AddTopicOpenModal , setAddTopicOpenModal] = useState(false);
 
 
     
@@ -71,6 +80,10 @@ export default function Navbar({items}: {items: NavItems}){
     function ToAddCourses(){
         setCourseOpenModal(true);
     }
+
+    function ToAddTopics(){
+        setAddTopicOpenModal(true);
+    }
   
 
 
@@ -82,6 +95,7 @@ export default function Navbar({items}: {items: NavItems}){
          switch(key){
             case  "profile" : profile.ToProfile() ; break;
             case "createWorkspace" : ToCreateWorkspace() ; break;
+            case "AddTopics" : ToAddTopics() ; break;
             case "AddCourses" : ToAddCourses() ; break;
             case "logout" : ToLogout() ; break;
          }
@@ -93,7 +107,7 @@ export default function Navbar({items}: {items: NavItems}){
       
    <>
              <div className="flex items-center justify-between px-3 py-2">
-                    <button className=" text-md font-bold " onClick={home.ToHome}>StudyHub</button>
+                    <button className=" text-md font-bold " onClick={home.ToHome}>{title}</button>
              </div>
 
              <div className=" items-center justify-between gap-5 hidden sm:flex">
@@ -134,7 +148,7 @@ export default function Navbar({items}: {items: NavItems}){
 
         <CreateWorkspace isOpen={WorkSpaceopenModal} onClose={()=>setWorkSpaceOpenModal(false)} />
         <CreateCourse isOpen={CourseOpenModal} onClose={()=>setCourseOpenModal(false)} />
-
+        
     </>
     )
 }

@@ -10,6 +10,7 @@ export function CreateCourse({isOpen , onClose} :{ isOpen?: boolean; onClose?: (
     const [description, setDescription] = useState('');
     const [message, setMessage] = useState('');
 
+
     if (!isOpen) return null;
 
         async function handleSubmit(e: any) {

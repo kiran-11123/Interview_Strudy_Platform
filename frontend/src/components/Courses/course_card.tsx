@@ -1,5 +1,6 @@
 import { Trash } from 'lucide-react'
 import { CourseDetails } from './course_details'
+import { useNavigate } from 'react-router-dom'
 
 interface Courses {
 
@@ -20,11 +21,24 @@ interface CourseCardProps {
 
 export function CourseCard({  course, delete: disabled = false }: CourseCardProps) {
 
+    const navigate  = useNavigate();
+
     async function HandleDelete(e: any) {
 
         e.preventDefault();
 
     }
+
+
+    function HandleNavigate(courseId: string) {
+        navigate(`/course/${courseId}` ,{
+            state : {
+                courseId : courseId,
+                courseName : course.course_name
+            }
+        });
+    }
+
 
     return (
       <div className="
@@ -120,7 +134,7 @@ export function CourseCard({  course, delete: disabled = false }: CourseCardProp
                 hover:opacity-90
                 transition
                 cursor-pointer
-            " onClick={() => window.location.href = `/course/${course._id}`}>
+            " onClick={() => HandleNavigate(course._id)}>
                 Explore Course
             </button>
         </div>
