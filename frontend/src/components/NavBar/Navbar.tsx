@@ -2,8 +2,8 @@ import { useState, type JSX } from "react"
 import { StickyNotePlus  , UserPen  , CirclePlus , LogOut  , Menu} from "lucide-react"
 import { useHomeNavigation , useProfile , useDashBoard} from "../global/global_functions"
 import axios from "axios"
-import  { CreateWorkspace } from "../global/create_workspace";
-
+import  { CreateWorkspace  } from "../global/create_workspace";
+import { CreateCourse } from "../Courses/create_course";
 
 const BASEURL = import.meta.env.VITE_BASE_API;
 
@@ -29,6 +29,7 @@ export default function Navbar({items}: {items: NavItems}){
     
     const[open ,isOpen] = useState(false);
     const[WorkSpaceopenModal , setWorkSpaceOpenModal] = useState(false);
+    const[CourseOpenModal , setCourseOpenModal] = useState(false);
 
 
     
@@ -66,6 +67,10 @@ export default function Navbar({items}: {items: NavItems}){
          
         setWorkSpaceOpenModal(true);
     }
+
+    function ToAddCourses(){
+        setCourseOpenModal(true);
+    }
   
 
 
@@ -77,7 +82,7 @@ export default function Navbar({items}: {items: NavItems}){
          switch(key){
             case  "profile" : profile.ToProfile() ; break;
             case "createWorkspace" : ToCreateWorkspace() ; break;
-            case "AddCourses" : console.log("Add Courses") ; break;
+            case "AddCourses" : ToAddCourses() ; break;
             case "logout" : ToLogout() ; break;
          }
     }
@@ -128,6 +133,7 @@ export default function Navbar({items}: {items: NavItems}){
         )}
 
         <CreateWorkspace isOpen={WorkSpaceopenModal} onClose={()=>setWorkSpaceOpenModal(false)} />
+        <CreateCourse isOpen={CourseOpenModal} onClose={()=>setCourseOpenModal(false)} />
 
     </>
     )

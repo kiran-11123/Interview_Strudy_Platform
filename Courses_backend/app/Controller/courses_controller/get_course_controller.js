@@ -21,6 +21,7 @@ export const get_course_controller = async(req , res)=>{
         })
 
     }
+    
     catch(er){
            
         if(er.message === 'Course not found'){
@@ -53,7 +54,7 @@ export const get_all_courses_controller = async(req,res)=>{
 
          return res.status(200).json({  
             message : "Data Fetched Successfully",
-            data : result
+            courses : result
          })
 
     }

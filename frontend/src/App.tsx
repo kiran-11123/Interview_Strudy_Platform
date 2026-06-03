@@ -6,7 +6,7 @@ import Signup from './components/Auth_Pages/Signup';
 import HomePage from './components/Home_Pages/Home';
 import DashBoard from './components/Dashboard/DashBoard';
 import ProtectedRoute from './protectedRoute';
-
+import {CourseDetails} from './components/Courses/course_details';
 
 function App() {
     const isAuthenticated = localStorage.getItem('isAuthenticated') ;
@@ -36,6 +36,21 @@ function App() {
               <HomePage isAdmin={isAdmin} />
             </ProtectedRoute>
           } />
+
+          <Route 
+            
+            path="/course/:CourseId"
+
+            element={
+              <ProtectedRoute isAuthenticated={isAuthValid?true : false}>
+                 
+                 <CourseDetails isAdmin={isAdmin} />
+
+              </ProtectedRoute>
+            }
+          
+          
+          />
 
     </Routes>
     
