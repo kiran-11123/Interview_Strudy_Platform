@@ -1,12 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 const Courses_API_URL = import.meta.env.VITE_Courses_API
 
-export function CourseDetails({ courseId }: { courseId: string }) {
+export function CourseDetails(props : { isAdmin: boolean }) {
 
-
+    const { CourseId } = useParams();
+    const courseId = CourseId;
+    
+    console.log(courseId)
+    
     const [CourseData, setCourseData] = useState([]);
     const [message, setMessage] = useState("");
     
@@ -15,22 +19,44 @@ export function CourseDetails({ courseId }: { courseId: string }) {
         async function GetCourseData() {
 
             try {
-                const response = await axios.post(`${Courses_API_URL}/courses?course_id=${courseId}`);
+                const response = await axios.post(`${Courses_API_URL}courses/get_topics/${courseId}` ,{} ,{
+                    withCredentials:true
+                });
+                console.log(response);
 
                 if (response.status === 200) {
 
-                    setCourseData(response.data);
+                    setCourseData(response.data.topics);
                 }
                 else {
 
-                    setMessage("Failed to fetch course data");
+                    setMessage(response.data.message || "Failed to fetch course data");
                 }
 
             }
-            catch (error) {
+            catch (error :any) {
 
 
-                setMessage("An error occurred while fetching course data");
+                if (error.response?.status === 401) {
+
+                    setMessage("Unauthorized. Please login again.");
+                    localStorage.removeItem("isAuthenticated");
+             
+
+                
+            }
+
+                else {
+
+                    setMessage(
+                        error.response?.data?.message ||
+                        "Something went wrong"
+                    );
+
+
+                    
+                }
+
             }
 
 
@@ -41,8 +67,8 @@ export function CourseDetails({ courseId }: { courseId: string }) {
     }, [])
 
     return (
-        <div>
-            Course Details
+        <div className="p-5 flex flex-col h-full justify-between">
+           
         </div>
     )
 }

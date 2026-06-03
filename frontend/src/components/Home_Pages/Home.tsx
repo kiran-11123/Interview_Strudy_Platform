@@ -58,7 +58,7 @@ export default  function HomePage({ isAdmin }: { isAdmin: boolean }){
 
     {coursesData.length === 0 ? (
         <div className="col-span-full flex justify-center items-center">
-            <h1 className="text-gray-400 text-lg font-medium">
+            <h1 className="text-lg font-medium">
                 No courses available
             </h1>
         </div>

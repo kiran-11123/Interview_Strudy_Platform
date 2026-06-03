@@ -1,4 +1,5 @@
 import { Trash } from 'lucide-react'
+import { CourseDetails } from './course_details'
 
 interface Courses {
 
@@ -14,6 +15,7 @@ interface CourseCardProps {
     course: Courses
     delete?: boolean
 }
+
 
 
 export function CourseCard({  course, delete: disabled = false }: CourseCardProps) {
