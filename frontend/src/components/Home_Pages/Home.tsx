@@ -2,12 +2,13 @@
 import Navbar from "../NavBar/Navbar"
 import { useEffect, useState } from "react"
 import axios from "axios"
-
+import { useRecoilValue } from "recoil"
+import { AdminState } from "../../atoms/AdminState"
 const Courses_API_URL = import.meta.env.VITE_Courses_API
 import { CourseCard } from "../Courses/course_card"
 
-export default  function HomePage({ isAdmin }: { isAdmin: boolean }){
-
+export default  function HomePage(){
+    const isAdmin = useRecoilValue(AdminState);
 
     const [coursesData , setCoursesData] = useState([]);
 

@@ -1,10 +1,20 @@
 
 
-
+import {Heart , Trash} from 'lucide-react'
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-export function TopicCard({ topic }: { topic: any }) {
+interface topic{
+    topic_name : string,
+    topic_description:string
+}
+
+interface TopicsData{
+    topic :  topic
+    
+}
+
+export function TopicCard({ topic }:TopicsData) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleDescription = () => {
@@ -32,9 +42,22 @@ export function TopicCard({ topic }: { topic: any }) {
                 </div>
             </div>
             {isExpanded && (
-                <p className="text-gray-700 text-sm leading-relaxed animate-in fade-in duration-200">
+
+                <div className="flex  flex-col items-center gap-5">
+
+                    <p className="text-gray-700 text-sm leading-relaxed animate-in fade-in duration-200">
                     {topic.topic_description}
                 </p>
+
+                <div className="flex items-center justify-between w-full">
+
+                    <Heart className='h-5 w-5 ' />
+                    <Trash className='h-5 w-5' />
+
+                </div>
+
+                </div>
+                
             )}
         </div>
 

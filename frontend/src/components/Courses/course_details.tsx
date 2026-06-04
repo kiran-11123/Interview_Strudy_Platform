@@ -2,11 +2,14 @@ import axios from "axios";
 import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 import {useLocation} from "react-router-dom"
+import { useRecoilValue } from "recoil"
+import { AdminState } from "../../atoms/AdminState";
 import Navbar from "../NavBar/Navbar";
 import { TopicCard } from "../topics/topic_card";
 const Courses_API_URL = import.meta.env.VITE_Courses_API
 
-export function CourseDetails(isAdmin : { isAdmin: boolean }) {
+export function CourseDetails() {
+    const isAdmin = useRecoilValue(AdminState);
 
     const { CourseId } = useParams();
     const courseId = CourseId;
