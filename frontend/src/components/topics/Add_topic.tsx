@@ -9,9 +9,10 @@ interface AddTopicProps {
     isOpen?: boolean;
     onClose?: () => void;
     course_id : string | undefined;
+    onTopicAdded?: () => void;
 }
 
-export function AddTopic({isOpen, onClose, course_id}: AddTopicProps) {
+export function AddTopic({isOpen, onClose, course_id, onTopicAdded}: AddTopicProps) {
 
     const [topicName, setTopicName] = useState('');
     const [description, setDescription] = useState('');
@@ -47,6 +48,7 @@ export function AddTopic({isOpen, onClose, course_id}: AddTopicProps) {
                         setTopicName("");   
 
                         setDescription("");
+                        onTopicAdded && onTopicAdded();
                         onClose && onClose();
                     }
 

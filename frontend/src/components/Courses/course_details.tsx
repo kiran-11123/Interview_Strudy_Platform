@@ -17,58 +17,54 @@ export function CourseDetails(isAdmin : { isAdmin: boolean }) {
     
     const [CourseData, setCourseData] = useState([]);
     const [message, setMessage] = useState("");
-    
-    useEffect(() => {
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-        async function GetCourseData() {
+    const fetchTopics = async () => {
+        try {
+            const response = await axios.post(`${Courses_API_URL}courses/get_topics/${courseId}` ,{} ,{
+                withCredentials:true
+            });
+            console.log(response);
 
-            try {
-                const response = await axios.post(`${Courses_API_URL}courses/get_topics/${courseId}` ,{} ,{
-                    withCredentials:true
-                });
-                console.log(response);
+            if (response.status === 200) {
 
-                if (response.status === 200) {
-
-                    setCourseData(response.data.topics);
-                }
-                else {
-
-                    setMessage(response.data.message || "Failed to fetch course data");
-                }
-
+                setCourseData(response.data.topics);
             }
-            catch (error :any) {
+            else {
+
+                setMessage(response.data.message || "Failed to fetch course data");
+            }
+
+        }
+        catch (error :any) {
 
 
-                if (error.response?.status === 401) {
+            if (error.response?.status === 401) {
 
-                    setMessage("Unauthorized. Please login again.");
-                    localStorage.removeItem("isAuthenticated");
-             
+                setMessage("Unauthorized. Please login again.");
+                localStorage.removeItem("isAuthenticated");
+         
+
+            
+        }
+
+            else {
+
+                setMessage(
+                    error.response?.data?.message ||
+                    "Something went wrong"
+                );
+
 
                 
             }
 
-                else {
-
-                    setMessage(
-                        error.response?.data?.message ||
-                        "Something went wrong"
-                    );
-
-
-                    
-                }
-
-            }
-
-
         }
-
-        GetCourseData();
-
-    }, [])
+    };
+    
+    useEffect(() => {
+        fetchTopics();
+    }, [refreshTrigger])
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-start max-w-full bg-gradient-to-br from-gray-50 to-gray-100">
@@ -76,7 +72,7 @@ export function CourseDetails(isAdmin : { isAdmin: boolean }) {
             <div className="flex fixed z-100 max-w-sm sm:max-w-4xl text-sm sm:text-lg md:text-lg lg:max-w-full items-center justify-between bg-gray-800 text-white w-full rounded-lg px-5 py-3 cursor-pointer shadow-lg">
                 
                 {isAdmin ? (
-                    <Navbar items={{ AddTopics: "AddTopics", logout: "Logout"  }} title={CourseName} course_id={CourseId} />
+                    <Navbar items={{ AddTopics: "AddTopics", logout: "Logout"  }} title={CourseName} course_id={CourseId} onTopicAdded={() => setRefreshTrigger(prev => prev + 1)} />
                 ) : <Navbar items={{ logout: "Logout"  }} title={CourseName}  course_id={CourseId} />}
             </div>
 
