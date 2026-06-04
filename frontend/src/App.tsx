@@ -10,7 +10,7 @@ import {CourseDetails} from './components/Courses/course_details';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 import { AdminState } from '../atoms/admin_state';
 import { useEffect } from 'react';
-
+import { ProfileHome } from './components/profile/profile_home';
 function AppContent() {
     const setIsAdmin = useSetRecoilState(AdminState);
     
@@ -63,6 +63,20 @@ function AppContent() {
               }
             
             
+            />
+
+            <Route path='/profile'
+
+            element = {
+
+              <ProtectedRoute isAuthenticated={isAuthValid?true : false}>
+                   
+                   <ProfileHome />
+
+                </ProtectedRoute>
+
+            }
+
             />
 
       </Routes>

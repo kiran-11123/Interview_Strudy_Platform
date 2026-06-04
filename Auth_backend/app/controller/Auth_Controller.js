@@ -59,3 +59,31 @@ export const login_user_controller = async(req , res)=>{
         })
     }
 }
+
+export const get_user_details_Controller = async(req,res)=>{
+
+    try{
+
+        const username_data = req.user.username;
+
+        if(!username_data){
+            return res.status(401).json({
+                message : 'User Not found'
+            })
+        }
+        console.log(username_data)
+
+        return res.status(200).json({
+            message : "Details Fetched succesfully",
+            username : username_data
+        }) 
+
+    }
+    catch(er){
+
+        
+        return res.status(500).json({
+            message : 'Internal Server Error'
+        })
+    }
+}

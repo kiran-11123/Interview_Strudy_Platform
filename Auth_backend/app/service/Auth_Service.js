@@ -79,6 +79,7 @@ export const login_user_service = async (email, password) => {
 
             {
                 user_id: find_user.userId,
+                username : find_user.username,
 
                 email: find_user.email,
                 role : find_user.isAdmin

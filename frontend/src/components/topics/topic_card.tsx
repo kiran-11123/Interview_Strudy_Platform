@@ -8,6 +8,7 @@ import { AdminState } from "../../../atoms/admin_state"
 import { useRecoilValue } from 'recoil';
 
 interface topic{
+    _id : string
     topic_name : string,
     topic_description:string
 }
@@ -18,6 +19,8 @@ interface TopicsData{
 }
 
 export function TopicCard({ topic }:TopicsData) {
+
+    console.log("topics from topicCard"   , topic);
     const [isExpanded, setIsExpanded] = useState(false);
 
     const isAdmin = useRecoilValue(AdminState);
@@ -26,6 +29,16 @@ export function TopicCard({ topic }:TopicsData) {
     const toggleDescription = () => {
         setIsExpanded(!isExpanded);
     };
+
+    async function DeleteTopic(topic_id : string) {
+
+        
+        
+    }
+
+    async function AddTopicToFavourites(topic_id : string){
+
+    }
 
     return (
 
@@ -57,8 +70,8 @@ export function TopicCard({ topic }:TopicsData) {
 
                 <div className="flex items-center justify-between w-full">
 
-                  <button title="favourites" className='rounded-full shadow-lg p-2 bg-gray-300 hover:bg-gray-400'><Heart className='h-5 w-5 ' /> </button>  
-                 {isAdmin && ( <button title ='delete_topic' className='rounded-full shadow-lg bg-gray-300 hover:bg-gray-400 p-2'>   <Trash className='h-5 w-5' />  </button> ) } 
+                  <button title="favourites" className='rounded-full shadow-lg p-2 bg-gray-300 hover:bg-gray-400' onClick={()=>AddTopicToFavourites(topic._id)}><Heart className='h-5 w-5 ' /> </button>  
+                 {isAdmin && ( <button title ='delete_topic' className='rounded-full shadow-lg bg-gray-300 hover:bg-gray-400 p-2' onClick={()=>DeleteTopic(topic._id)}>   <Trash className='h-5 w-5' />  </button> ) } 
 
                 </div>
 

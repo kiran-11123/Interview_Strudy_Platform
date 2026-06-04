@@ -34,7 +34,7 @@ export function CourseDetails() {
             if (response.status === 200) {
 
                 setCourseData(response.data.topics);
-                console.log(setCourseData)
+               
                 
             }
             else {
@@ -71,6 +71,8 @@ export function CourseDetails() {
     
     useEffect(() => {
         fetchTopics();
+
+     
     }, [refreshTrigger])
 
     const handleTopicClick = (topicId: string) => {
