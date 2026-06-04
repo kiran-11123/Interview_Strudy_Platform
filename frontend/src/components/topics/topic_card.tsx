@@ -4,6 +4,9 @@ import {Heart , Trash} from 'lucide-react'
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
+import { AdminState } from "../../../atoms/admin_state"
+import { useRecoilValue } from 'recoil';
+
 interface topic{
     topic_name : string,
     topic_description:string
@@ -16,6 +19,9 @@ interface TopicsData{
 
 export function TopicCard({ topic }:TopicsData) {
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const isAdmin = useRecoilValue(AdminState);
+
 
     const toggleDescription = () => {
         setIsExpanded(!isExpanded);
@@ -51,8 +57,8 @@ export function TopicCard({ topic }:TopicsData) {
 
                 <div className="flex items-center justify-between w-full">
 
-                    <Heart className='h-5 w-5 ' />
-                    <Trash className='h-5 w-5' />
+                  <button title="favourites" className='rounded-full shadow-lg p-2 bg-gray-300 hover:bg-gray-400'><Heart className='h-5 w-5 ' /> </button>  
+                 {isAdmin && ( <button title ='delete_topic' className='rounded-full shadow-lg bg-gray-300 hover:bg-gray-400 p-2'>   <Trash className='h-5 w-5' />  </button> ) } 
 
                 </div>
 

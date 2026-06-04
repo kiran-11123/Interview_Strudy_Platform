@@ -11,7 +11,6 @@ export default  function HomePage(){
 
     const isAdmin = useRecoilValue(AdminState);
 
-    console.log("Isadmin in home page" , isAdmin)
 
     const [coursesData , setCoursesData] = useState([]);
 
