@@ -100,7 +100,9 @@ export const get_topics_course_service = async(course_id)=>{
         catch(er){
             console.error(`Error while setting course_topics in redis with id ${course_id} `)
         }
- */
+ */       
+       
+       
 
         return check_course;
 

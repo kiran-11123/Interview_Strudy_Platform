@@ -11,7 +11,6 @@ const BASEURL = import.meta.env.VITE_BASE_API;
 interface NavItems{
     title ? : string
     profile? : string
-    createWorkspace ? : string
     AddTopics ? : string
     AddCourses ?  :string
     logout? : string
@@ -32,7 +31,6 @@ export default function Navbar({items, title ,course_id, onTopicAdded}: NavBarPr
     const dashBoard = useDashBoard();
     const mapping_icons  : Record<string, JSX.Element> = {
         profile: <UserPen className="h-5 w-5" />,
-        createWorkspace : <CirclePlus className="h-5 w-5" />,
         AddTopics: <StickyNotePlus className="h-5 w-5" />,
         AddCourses: <StickyNotePlus className="h-5 w-5" />,
         logout: <LogOut className="h-5 w-5" />
@@ -75,10 +73,7 @@ export default function Navbar({items, title ,course_id, onTopicAdded}: NavBarPr
        
     }
    
-    function ToCreateWorkspace(){
-         
-        setWorkSpaceOpenModal(true);
-    }
+
 
     function ToAddCourses(){
         setCourseOpenModal(true);
@@ -97,7 +92,6 @@ export default function Navbar({items, title ,course_id, onTopicAdded}: NavBarPr
          
          switch(key){
             case  "profile" : profile.ToProfile() ; break;
-            case "createWorkspace" : ToCreateWorkspace() ; break;
             case "AddTopics" : ToAddTopics() ; break;
             case "AddCourses" : ToAddCourses() ; break;
             case "logout" : ToLogout() ; break;
@@ -149,7 +143,6 @@ export default function Navbar({items, title ,course_id, onTopicAdded}: NavBarPr
             
         )}
 
-        <CreateWorkspace isOpen={WorkSpaceopenModal} onClose={()=>setWorkSpaceOpenModal(false)} />
         <CreateCourse isOpen={CourseOpenModal} onClose={()=>setCourseOpenModal(false)} />
         <AddTopic isOpen={AddTopicOpenModal} onClose={()=>setAddTopicOpenModal(false)}  course_id ={course_id} onTopicAdded={onTopicAdded} />
     </>
