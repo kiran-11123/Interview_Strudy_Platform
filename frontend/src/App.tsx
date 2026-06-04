@@ -19,6 +19,10 @@ function AppContent() {
     const isAuthValid = parsedAuth && parsedAuth.isAuthenticated && parsedAuth.expiry > Date.now();
     const isAdmin = parsedAuth && parsedAuth.isAdmin;
 
+    console.log("Isadmin in app" , isAdmin)
+
+
+
     useEffect(() => {
       if (isAdmin) {
         setIsAdmin(true);

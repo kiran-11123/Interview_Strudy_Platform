@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 import {useLocation} from "react-router-dom"
 import { useRecoilValue } from "recoil"
-import { AdminState } from "../../atoms/AdminState";
+import { AdminState } from "../../../atoms/admin_state";
 import Navbar from "../NavBar/Navbar";
 import { TopicCard } from "../topics/topic_card";
 const Courses_API_URL = import.meta.env.VITE_Courses_API
