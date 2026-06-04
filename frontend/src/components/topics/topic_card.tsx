@@ -12,15 +12,18 @@ export function TopicCard({ topic }: { topic: any }) {
     };
 
     return (
-        <div className="flex flex-col gap-2 p-4 border border-gray-300 rounded-lg hover:shadow-md transition-shadow duration-200 bg-white">
+
+
+       
+        <div className="flex flex-col gap-2 p-4 border border-gray-400 rounded-lg hover:shadow-md transition-shadow duration-200 bg-white">
             <div 
                 onClick={toggleDescription}
                 className="flex items-center justify-between cursor-pointer group"
             >
-                <h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-lg font-semibold text-gray-800  transition-colors">
                     {topic.topic_name}
                 </h3>
-                <div className="text-gray-500 group-hover:text-blue-600 transition-colors">
+                <div className="text-gray-500 group-hover:text-gray-950 transition-colors">
                     {isExpanded ? (
                         <ChevronUp className="h-5 w-5" />
                     ) : (
@@ -29,10 +32,11 @@ export function TopicCard({ topic }: { topic: any }) {
                 </div>
             </div>
             {isExpanded && (
-                <p className="text-gray-600 text-sm leading-relaxed animate-in fade-in duration-200">
+                <p className="text-gray-700 text-sm leading-relaxed animate-in fade-in duration-200">
                     {topic.topic_description}
                 </p>
             )}
         </div>
+
     );
 }
