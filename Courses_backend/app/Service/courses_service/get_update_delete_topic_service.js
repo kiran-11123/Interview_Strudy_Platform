@@ -2,6 +2,7 @@ import mongoose, { mongo } from "mongoose";
 import redis_client from "../../../../redis/index.js";
 import course_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/courses_schema.js";
 import topic_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/topic_schema.js";
+import e from "express";
 
 
 
@@ -59,11 +60,12 @@ export const create_topic_course_service = async(course_id , topic_name , topic_
 export const get_topics_course_service = async(course_id)=>{
       
     try{
-
+           
         const course_id_new = new mongoose.Types.ObjectId(course_id);
 
 
-        const check_course = await course_model.findById(course_id_new);
+        const check_course = await topic_model.find({course_id : course_id_new});
+
 
         if(!check_course){
             throw new Error('Course not found');
@@ -71,7 +73,7 @@ export const get_topics_course_service = async(course_id)=>{
 
         const cache_course_topics = `course:${course_id}_topics`
 
-        try{
+      /*  try{
 
             const check_cache_course_topics = await redis_client.get(cache_course_topics);
 
@@ -83,16 +85,14 @@ export const get_topics_course_service = async(course_id)=>{
         }
         catch(er){
             console.error(`Error while getting course_topics in redis with id ${course_id} `) 
-        }
+        }  */
 
-        const get_data = await course_model.findById(course_id_new).populate('course_topics');
 
-        if(!get_data){
-            throw new Error('Course not found');
-        }
+       
 
-        try{
-            await redis_client.set(cache_course_topics , JSON.stringify(get_data.course_topics) , {
+
+      /*  try{
+            await redis_client.set(cache_course_topics , JSON.stringify(check_course.course_topics) , {
                 EX : 3600
             })
 
@@ -100,9 +100,9 @@ export const get_topics_course_service = async(course_id)=>{
         catch(er){
             console.error(`Error while setting course_topics in redis with id ${course_id} `)
         }
+ */
 
-
-        return get_data.course_topics;
+        return check_course;
 
 
     }

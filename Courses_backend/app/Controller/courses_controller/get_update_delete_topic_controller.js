@@ -44,6 +44,7 @@ export const get_topics_course_controller = async(req , res)=>{
 
     try{
         const {course_id} = req.params;
+
         const topics = await get_topics_course_service(course_id);
         res.status(200).json({message : 'topics retrieved successfully' , topics : topics});
     }

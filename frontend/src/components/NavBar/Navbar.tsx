@@ -4,6 +4,7 @@ import { useHomeNavigation , useProfile , useDashBoard} from "../global/global_f
 import axios from "axios"
 import  { CreateWorkspace  } from "../global/create_workspace";
 import { CreateCourse } from "../Courses/create_course";
+import { AddTopic } from "../topics/Add_topic";
 
 const BASEURL = import.meta.env.VITE_BASE_API;
 
@@ -19,10 +20,12 @@ interface NavItems{
 
 interface NavBarProps {
     title  : string
+    course_id ?: string
     items : NavItems
+    onTopicAdded?: () => void;
 }
 
-export default function Navbar({items, title}: NavBarProps){
+export default function Navbar({items, title ,course_id, onTopicAdded}: NavBarProps){
     
     const home = useHomeNavigation();
     const profile = useProfile();
@@ -148,7 +151,7 @@ export default function Navbar({items, title}: NavBarProps){
 
         <CreateWorkspace isOpen={WorkSpaceopenModal} onClose={()=>setWorkSpaceOpenModal(false)} />
         <CreateCourse isOpen={CourseOpenModal} onClose={()=>setCourseOpenModal(false)} />
-        
+        <AddTopic isOpen={AddTopicOpenModal} onClose={()=>setAddTopicOpenModal(false)}  course_id ={course_id} onTopicAdded={onTopicAdded} />
     </>
     )
 }
