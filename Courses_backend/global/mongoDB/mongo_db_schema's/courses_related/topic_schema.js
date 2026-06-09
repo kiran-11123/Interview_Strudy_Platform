@@ -15,6 +15,12 @@ const topic_schema = new mongoose.Schema({
         type : Object,
         required : true
     },
+   favourites: [
+        {
+            type: Number,
+            required :true
+        }
+    ]
    
 },{timestamps : true    })
 

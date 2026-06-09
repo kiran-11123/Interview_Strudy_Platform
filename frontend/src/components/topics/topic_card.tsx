@@ -3,9 +3,12 @@
 import {Heart , Trash} from 'lucide-react'
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import axios from 'axios';
 
 import { AdminState } from "../../../atoms/admin_state"
 import { useRecoilValue } from 'recoil';
+const Courses_API_URL = import.meta.env.VITE_Courses_API
+
 
 interface topic{
     _id : string
@@ -22,6 +25,7 @@ export function TopicCard({ topic }:TopicsData) {
 
     console.log("topics from topicCard"   , topic);
     const [isExpanded, setIsExpanded] = useState(false);
+    const[message , setMessage] = useState('');
 
     const isAdmin = useRecoilValue(AdminState);
 
@@ -36,7 +40,50 @@ export function TopicCard({ topic }:TopicsData) {
         
     }
 
-    async function AddTopicToFavourites(topic_id : string){
+    async function AddTopicToFavourites(topic_id : string){ 
+        try{
+            const response = await axios.post(`${Courses_API_URL}favourites/create` , {topic_id}, {
+                withCredentials:true
+            })
+
+            if(response.status===200){
+                 
+                setMessage(response.data.message);
+            }
+            else {
+                setMessage(response.data.message)
+            }
+
+        }
+        catch(error : any){
+
+              if (error.response?.status === 401) {
+
+                setMessage("Unauthorized. Please login again.");
+                localStorage.removeItem("isAuthenticated");
+         
+
+            
+        }
+
+            else {
+
+                setMessage(
+                    error.response?.data?.message ||
+                    "Something went wrong"
+                );
+
+
+                
+            }
+
+        }
+        finally{
+            setTimeout (() =>{
+                setMessage('');
+        } , 2000)
+
+    }
 
     }
 
