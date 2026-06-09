@@ -1,76 +1,70 @@
 import mongoose from "mongoose";
-import favourties_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/favourites_schema.js";
 
-export const CreateFavouriteService = async(title , description , user_id)=>{
+import topic_model from "../../../global/mongoDB/mongo_db_schema's/courses_related/topic_schema.js";
 
-      const session = await mongoose.startSession();
-    try{
+export const CreateFavouriteService = async (topic_id, user_id) => {
+    try {
 
-        session.startTransaction();
-        
-         const existing = await favourties_model.findOne(
-            { title, user_id },
-            null,
-            { session }
-        );
+        const new_topic_id = new mongoose.Types.ObjectId(topic_id);
+        const topic = await topic_model.findById(new_topic_id);
 
-        if (existing) {
+        if (!topic) {
+            throw new Error("Topic not found");
+        }
+
+        // check if already exists
+        const alreadyFavourite = topic.favourites.includes(user_id);
+
+        if (alreadyFavourite) {
             throw new Error("Already added to favourites");
         }
 
-  const newFav = new favourties_model({
-            title,
-            description,
-            user_id
-        });
-
-        await newFav.save({ session });
-
-        await session.commitTransaction();
-        session.endSession();
+        // add user safely
+        await topic_model.updateOne(
+            { _id: topic_id },
+            { $addToSet: { favourites: user_id } }
+        );
 
         return true;
 
-    }
-    catch(er){
-         await session.abortTransaction();
-        session.endSession();
+    } catch (err) {
         throw err;
     }
-     
 }
 
 
-export const DeleteFavouriteService = async (user_id, fav_id) => {
-
-    
+export const DeleteFavouriteService = async (user_id, topic_id) => {
     try {
 
-        const new_fav_id=  new mongoose.Types.ObjectId(fav_id)
-        const result = await favourties_model.deleteOne({
-            _id: new_fav_id,
-            user_id: user_id
-        });
+        const new_topic_id = new mongoose.Types.ObjectId(topic_id);
+        const topic = await topic_model.findById(new_topic_id);
 
-        if (result.deletedCount === 0) {
-            throw new Error("Favourite not found or already deleted");
+        if (!topic) {
+            throw new Error("Topic not found");
         }
 
+        await topic_model.updateOne(
+            { _id: topic_id },
+            { $pull: { favourites: user_id } }
+        );
+
         return true;
+
     } catch (err) {
         throw err;
     }
 };
 
-export const GetFavouritesService = async(user_id)=>{
-    try{
 
-        const find_favourites = await favourties_model.find({user_id : user_id})
+export const GetFavouritesService = async (user_id) => {
+    try {
+        const topics = await topic_model.find({
+            favourites: user_id
+        });
 
-        return find_favourites
+        return topics;
 
+    } catch (err) {
+        throw err;
     }
-    catch(er){
-        throw er;
-    }
-}
+};

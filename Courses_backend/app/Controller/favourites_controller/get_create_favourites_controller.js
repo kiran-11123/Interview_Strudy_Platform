@@ -6,15 +6,15 @@ export const CreateFavouriteController = async(req , res)=>{
 
         const user_id = req.user.user_id;
 
-        const {title , description} = req.body;
+        const {topic_id} = req.body;
 
-        if(!title || !description) {
+        if(!topic_id) {
             return res.status(400).json({
                 message : 'Input is empty'
             })
         }
 
-        const result  = await CreateFavouriteService(title  , description , user_id)
+        const result  = await CreateFavouriteService(topic_id , user_id)
 
 
         return res.status(200).json({
@@ -42,10 +42,10 @@ export const DeleteFavouritesController = async(req,res)=>{
      
     try{
 
-        const {fav_id}  =req.params;
+        const {topic_id}  =req.params;
         const user_id = req.user.user_id;
 
-        const result = await DeleteFavouriteService(user_id ,fav_id);
+        const result = await DeleteFavouriteService(user_id ,topic_id);
 
         return res.status(200).json({
             message :"Removed from favourites"
@@ -55,9 +55,9 @@ export const DeleteFavouritesController = async(req,res)=>{
 
     catch(er){
 
-        if(er.message === 'Favourite not found or already deleted'){
+        if(er.message === 'Topic not found'){
             return res.status(400).json({
-                message : 'Favourite not found or already deleted'
+                message : 'Topic not found'
             })
         }
 
