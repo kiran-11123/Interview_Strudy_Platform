@@ -8,6 +8,8 @@ export const CreateFavouriteController = async(req , res)=>{
 
         const {topic_id} = req.body;
 
+       
+
         if(!topic_id) {
             return res.status(400).json({
                 message : 'Input is empty'

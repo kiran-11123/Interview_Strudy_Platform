@@ -16,8 +16,8 @@ interface workspaceDetails{
 
 interface FavouriteDetails {
     _id: string,
-    title: string,
-    description: string
+    topic_name: string,
+    topic_description: string
 }
 
 
@@ -93,10 +93,11 @@ export function ProfileHome(){
 
         try{
 
-            const response  = await axios.post(`${CourseURL}favourties/get_favourites`,{},{
+            const response  = await axios.post(`${CourseURL}favourites/get_favourites`,{},{
                 withCredentials :true
             })
-
+            
+            console.log(response.data.result);
             if(response.status===200){
                 SetFavourites(response.data.result);
             }
@@ -228,8 +229,8 @@ export function ProfileHome(){
                            <FavouritesCard
                               favourites={{
                                 _id: course._id,
-                                title: course.title,
-                                description : course.description,
+                                topic_name: course.topic_name,
+                                topic_description : course.topic_description,
                                 onDelete: (id:string) =>
                                   SetFavourites((prev) =>
                                     prev.filter((w) => w._id !== id)

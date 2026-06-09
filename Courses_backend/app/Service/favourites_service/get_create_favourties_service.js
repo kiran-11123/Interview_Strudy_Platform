@@ -8,13 +8,19 @@ export const CreateFavouriteService = async (topic_id, user_id) => {
         const new_topic_id = new mongoose.Types.ObjectId(topic_id);
         const topic = await topic_model.findById(new_topic_id);
 
+        console.log('topic is' ,topic)
+
         if (!topic) {
             throw new Error("Topic not found");
         }
 
         // check if already exists
+
+      
+
         const alreadyFavourite = topic.favourites.includes(user_id);
 
+          
         if (alreadyFavourite) {
             throw new Error("Already added to favourites");
         }
