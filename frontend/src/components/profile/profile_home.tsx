@@ -19,7 +19,6 @@ export function ProfileHome(){
                 withCredentials:true
             });
 
-            console.log("username is " , response.data.username)
             if (response.status === 200) {
                 SetUsername(response.data.username);
             }
@@ -65,7 +64,7 @@ export function ProfileHome(){
         
                     <div className="flex fixed z-100 max-w-sm sm:max-w-4xl text-sm sm:text-lg md:text-lg lg:max-w-full items-center justify-between bg-gray-800 text-white w-full rounded-lg px-5 py-3 cursor-pointer shadow-lg">
                         
-                            <Navbar items={{ createWorkspace: "createWorkspace", logout: "Logout"  }} title={username}  />
+                            <Navbar items={{ createWorkspace: "createWorkspace", logout: "Logout"  }} title={`Welcome ${username}`}  />
                     </div>
 
 
