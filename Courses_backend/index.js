@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import courses_router from './app/Routes/courses_routes/main.js';
 import Workspace_Router from './app/Routes/workspace_routes/main.js';
 import Recently_Deleted_Router from './app/Routes/recently_deleted_routes/main.js';
+import Favourites_Router from './app/Routes/favourites_routes/main.js';
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api/notes' , notes_Router);
 app.use('/api/courses' , courses_router);
 app.use('/api/workspaces' , Workspace_Router);
 app.use('/api/recently_deleted' , Recently_Deleted_Router);
+app.use('/api/favourites' , Favourites_Router)
 const PORT = process.env.PORT ;
 
 
