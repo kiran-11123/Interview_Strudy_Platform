@@ -2,10 +2,18 @@ import { useState } from "react"
 import { useEffect } from "react";
 import axios from "axios";
 import Navbar from "../NavBar/Navbar";
-import { CourseCard } from "../Courses/course_card";
-
+import { WorkSpaceCard } from "./workspace_card";
 const BASEURL = import.meta.env.VITE_BASE_API;
 const CourseURL = import.meta.env.VITE_Courses_API
+
+interface workspaceDetails{
+    _id :string,
+    userid : number,
+    workspace_name : string 
+
+}
+
+
 export function ProfileHome(){
 
     const[username , SetUsername] = useState('');
@@ -13,7 +21,7 @@ export function ProfileHome(){
 
    const [activeTab, setActiveTab] = useState("favourites");
     const[favourites , SetFavourites] = useState([]);
-    const[workspaces , SetWorkspaces] = useState([]);
+    const[workspaces , SetWorkspaces] = useState<workspaceDetails[]>([]);
 
     useEffect(()=>{
          
@@ -147,9 +155,9 @@ export function ProfileHome(){
                     </div>
 
 
-        <div className="grid grid-cols-1 mt-20 sm:grid-cols-3 p-4 justify-center items-center md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 w-[90%] sm:grid-cols-3 p-4 justify-center items-center md:grid-cols-4 gap-6">
                
-               {workspaces.length === 0 ? (
+            {activeTab==='workspace' && ( workspaces.length === 0 ? (
                        <div className="col-span-full flex justify-center items-center">
                            <h1 className="text-lg font-medium">
                                No courses available
@@ -157,13 +165,12 @@ export function ProfileHome(){
                        </div>
                    ) : (
                        workspaces.map((course : any) => (
-                           <CourseCard
-                               key={course.id  || course.course_name}
-                               course={course}
-                               delete={true}
+                           <WorkSpaceCard
+                               workspace={course}
                            />
                        ))
-                   )}
+                   ) )}
+                
                
         </div>
 
