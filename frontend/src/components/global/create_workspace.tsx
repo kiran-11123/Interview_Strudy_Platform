@@ -2,10 +2,10 @@
 import { X } from 'lucide-react';
 import { useState } from 'react';
 import axios from 'axios';
-
+import { ProfileHome } from '../profile/profile_home';
 const Course_API_URL = import.meta.env.VITE_Courses_API
 
-export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?: () => void }) {
+export function CreateWorkspace({isOpen , onClose, onSuccess} :{ isOpen?: boolean; onClose?: () => void; onSuccess?: () => void }) {
 
     const [title, setTitle] = useState('');
     const [message, setMessage] = useState('');
@@ -31,7 +31,12 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
         }
     );
 
-    setMessage(response.data.message);
+    if(response.status===200){
+        setMessage(response.data.message);
+        onSuccess && onSuccess();
+    } else {
+        setMessage(response.data.message);
+    }
 
     setTimeout(() => {
         setMessage("");

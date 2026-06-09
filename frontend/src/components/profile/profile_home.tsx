@@ -76,7 +76,7 @@ export function ProfileHome(){
   };
 
 
-  const handleNotes = () => {
+  const handleWorkspaces = () => {
     setActiveTab("workspace");
     getUserWorkspace();
   };
@@ -140,7 +140,7 @@ export function ProfileHome(){
         
                     <div className="flex fixed z-100 max-w-sm sm:max-w-4xl text-sm sm:text-lg md:text-lg lg:max-w-full items-center justify-between bg-gray-800 text-white w-full rounded-lg px-5 py-3 cursor-pointer shadow-lg">
                         
-                            <Navbar items={{ createWorkspace: "createWorkspace", logout: "Logout"  }} title={`Welcome ${username}`}  />
+                            <Navbar items={{ createWorkspace: "createWorkspace", logout: "Logout"  }} title={`Welcome ${username}`} onWorkspaceCreated={getUserWorkspace} />
                     </div>
 
                     <div className="flex justify-center gap-20 font-medium mt-20 ">
@@ -154,7 +154,7 @@ export function ProfileHome(){
           activeTab === "workspace"
             ? "border-blue-500 text-blue-500"
             : "border-transparent"
-        }`} onClick={handleNotes}>My Workspaces</button>
+        }`} onClick={handleWorkspaces}>My Workspaces</button>
 
                     </div>
 

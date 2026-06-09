@@ -23,9 +23,10 @@ interface NavBarProps {
     course_id ?: string
     items : NavItems
     onTopicAdded?: () => void;
+    onWorkspaceCreated?: () => void;
 }
 
-export default function Navbar({items, title ,course_id, onTopicAdded}: NavBarProps){
+export default function Navbar({items, title ,course_id, onTopicAdded, onWorkspaceCreated}: NavBarProps){
     
     const home = useHomeNavigation();
     const profile = useProfile();
@@ -149,7 +150,7 @@ export default function Navbar({items, title ,course_id, onTopicAdded}: NavBarPr
             
         )}
 
-        <CreateWorkspace isOpen={WorkSpaceopenModal} onClose={()=>setWorkSpaceOpenModal(false)} />
+        <CreateWorkspace isOpen={WorkSpaceopenModal} onClose={()=>setWorkSpaceOpenModal(false)} onSuccess={onWorkspaceCreated} />
         <CreateCourse isOpen={CourseOpenModal} onClose={()=>setCourseOpenModal(false)} />
         <AddTopic isOpen={AddTopicOpenModal} onClose={()=>setAddTopicOpenModal(false)}  course_id ={course_id} onTopicAdded={onTopicAdded} />
     </>
