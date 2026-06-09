@@ -1,12 +1,17 @@
 
 import { Trash } from "lucide-react"
+import axios from "axios";
+const CourseURL = import.meta.env.VITE_Courses_API
+
+
 interface WorkspaceDetails {
-  _id: string;
-  workspace_name: string;
+  _id: string,
+  workspace_name: string,
+  onDelete :(_id : string) =>void
 }
 
 interface WorkspaceCardProps {
-  workspace: WorkspaceDetails;
+  workspace: WorkspaceDetails,
 }
 
 export function WorkSpaceCard({workspace} : WorkspaceCardProps){
@@ -17,6 +22,21 @@ export function WorkSpaceCard({workspace} : WorkspaceCardProps){
     }
 
     async function HandleDelete(_id : string){
+
+        try{
+
+            const response = await axios.delete(`${CourseURL}workspaces/delete/${_id}` ,{
+                withCredentials : true
+            })
+
+            if (response.status === 200) {
+             workspace.onDelete(_id);
+    }
+
+        }
+        catch(error:any){
+
+        }
 
     }
 

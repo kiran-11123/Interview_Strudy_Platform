@@ -66,6 +66,10 @@ export function ProfileHome(){
 
     }, [])
 
+   
+
+    
+
   const handleFavourites = () => {
     setActiveTab("favourites");
     getFavourites();
@@ -166,7 +170,14 @@ export function ProfileHome(){
                    ) : (
                        workspaces.map((course : any) => (
                            <WorkSpaceCard
-                               workspace={course}
+                              workspace={{
+                                _id: course._id,
+                                workspace_name: course.workspace_name,
+                                onDelete: (id:string) =>
+                                  SetWorkspaces((prev) =>
+                                    prev.filter((w) => w._id !== id)
+                                  )
+                              }}
                            />
                        ))
                    ) )}
