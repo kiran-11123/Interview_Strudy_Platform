@@ -62,7 +62,7 @@ export function CourseCard({  course, delete: disabled = false }: CourseCardProp
     {/* Top Accent */}
    
 
-    <div className="p-5 flex flex-col h-full justify-between">
+    <div className="p-5 flex flex-col h-72 md:h-96 justify-between">
 
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
