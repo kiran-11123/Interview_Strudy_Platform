@@ -5,12 +5,19 @@ import Navbar from "../NavBar/Navbar";
 import { WorkSpaceCard } from "./workspace_card";
 const BASEURL = import.meta.env.VITE_BASE_API;
 const CourseURL = import.meta.env.VITE_Courses_API
+import { FavouritesCard } from "./favourites_card";
 
 interface workspaceDetails{
     _id :string,
     userid : number,
     workspace_name : string 
 
+}
+
+interface FavouriteDetails {
+    _id: string,
+    title: string,
+    description: string
 }
 
 
@@ -20,7 +27,7 @@ export function ProfileHome(){
     const[message , setMessage] = useState('')
 
    const [activeTab, setActiveTab] = useState("favourites");
-    const[favourites , SetFavourites] = useState([]);
+    const[favourites , SetFavourites] = useState<FavouriteDetails[]>([]);
     const[workspaces , SetWorkspaces] = useState<workspaceDetails[]>([]);
 
     useEffect(()=>{
@@ -86,10 +93,36 @@ export function ProfileHome(){
 
         try{
 
+            const response  = await axios.post(`${CourseURL}favourties/get_favourites`,{},{
+                withCredentials :true
+            })
+
+            if(response.status===200){
+                SetFavourites(response.data.result);
+            }
+            else{
+                setMessage(response.data.message);
+            }
+
             
 
         }
-        catch(er){
+        catch(error: any){
+
+               if (error.response?.status === 401) {
+
+                setMessage("Unauthorized. Please login again.");
+                localStorage.removeItem("isAuthenticated");
+         
+        }
+
+            else {
+
+                setMessage(
+                    error.response?.data?.message ||
+                    "Something went wrong"
+                );  
+            }
 
         }
         
@@ -181,6 +214,31 @@ export function ProfileHome(){
                            />
                        ))
                    ) )}
+
+
+
+                    {activeTab==='favourites' && ( favourites.length === 0 ? (
+                       <div className="col-span-full flex justify-center items-center">
+                           <h1 className="text-lg font-medium">
+                               No Favourites available
+                           </h1>
+                       </div>
+                   ) : (
+                       favourites.map((course : any) => (
+                           <FavouritesCard
+                              favourites={{
+                                _id: course._id,
+                                title: course.title,
+                                description : course.description,
+                                onDelete: (id:string) =>
+                                  SetFavourites((prev) =>
+                                    prev.filter((w) => w._id !== id)
+                                  )
+                              }}
+                           />
+                       ))
+                   ) )}
+                
                 
                
         </div>

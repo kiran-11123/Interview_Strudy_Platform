@@ -61,3 +61,16 @@ export const DeleteFavouriteService = async (user_id, fav_id) => {
         throw err;
     }
 };
+
+export const GetFavouritesService = async(user_id)=>{
+    try{
+
+        const find_favourites = await favourties_model.find({user_id : user_id})
+
+        return find_favourites
+
+    }
+    catch(er){
+        throw er;
+    }
+}

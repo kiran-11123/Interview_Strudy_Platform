@@ -1,4 +1,4 @@
-import { CreateFavouriteService ,DeleteFavouriteService } from "../../Service/favourites_service/get_create_favourties_service.js";
+import { CreateFavouriteService ,DeleteFavouriteService , GetFavouritesService} from "../../Service/favourites_service/get_create_favourties_service.js";
 
 export const CreateFavouriteController = async(req , res)=>{
      
@@ -65,5 +65,26 @@ export const DeleteFavouritesController = async(req,res)=>{
             message :'Internal server error '
         })
          
+    }
+}
+
+export const GetFavourtiesController = async(req,res)=>{
+    
+    try{
+
+        const user_id = req.user.user_id;
+
+        const result = await GetFavouritesService(user_id);
+
+        return res.status(200).json({
+            message : 'Favourites Fetched Successfully',
+            result : result
+        })
+
+    }
+    catch(er){
+        return res.status(500).json({
+            message : 'Internal server error'
+        })
     }
 }
