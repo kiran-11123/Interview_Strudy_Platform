@@ -11,7 +11,7 @@ export function CreateWorkspace({isOpen , onClose} :{ isOpen?: boolean; onClose?
     const [message, setMessage] = useState('');
 
 
-      if (!isOpen) return null;
+    if (!isOpen) return null;
 
 
     async function handleSubmit(e: any) {
@@ -55,6 +55,17 @@ catch (error: any) {
             "Something went wrong"
         );
     }
+
+}
+
+finally{
+
+    setTimeout(() => {
+        setMessage("");
+        setTitle("");
+        onClose && onClose();
+    }, 2000);
+
 
 }
 

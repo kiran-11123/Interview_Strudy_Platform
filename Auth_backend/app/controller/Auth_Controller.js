@@ -71,7 +71,6 @@ export const get_user_details_Controller = async(req,res)=>{
                 message : 'User Not found'
             })
         }
-        console.log(username_data)
 
         return res.status(200).json({
             message : "Details Fetched succesfully",

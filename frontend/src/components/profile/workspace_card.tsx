@@ -1,47 +1,27 @@
-import { Trash } from 'lucide-react'
-import { CourseDetails } from './course_details'
-import { useNavigate } from 'react-router-dom'
 
-interface Courses {
-
-    _id : string
-    course_name: string
-    course_description: string
-
+import { Trash } from "lucide-react"
+interface WorkspaceDetails {
+  _id: string;
+  workspace_name: string;
 }
 
-
-
-interface CourseCardProps {
-    course: Courses
-    delete?: boolean
+interface WorkspaceCardProps {
+  workspace: WorkspaceDetails;
 }
 
+export function WorkSpaceCard({workspace} : WorkspaceCardProps){
+    
 
-
-export function CourseCard({  course, delete: disabled = false }: CourseCardProps) {
-
-    const navigate  = useNavigate();
-
-    async function HandleDelete(e: any) {
-
-        e.preventDefault();
+   async  function HandleNavigate(_id : string){
 
     }
 
+    async function HandleDelete(_id : string){
 
-    function HandleNavigate(courseId: string) {
-        navigate(`/course/${courseId}` ,{
-            state : {
-                courseId : courseId,
-                courseName : course.course_name
-            }
-        });
     }
 
-
-    return (
-      <div className="
+    return(
+        <div className="
     group
     relative
     w-full
@@ -76,7 +56,7 @@ export function CourseCard({  course, delete: disabled = false }: CourseCardProp
                     mb-2
                     transition-colors
                 ">
-                    {course.course_name}
+                    {workspace.workspace_name}
                 </h1>
 
                 <span className="
@@ -89,14 +69,14 @@ export function CourseCard({  course, delete: disabled = false }: CourseCardProp
                     border
                     border-indigo-400/20
                 ">
-                    Interview Course
+                    Personal Notes
                 </span>
             </div>
 
-            {disabled && (
+           
                 <button
                     title="Delete"
-                    onClick={() => HandleDelete(course._id)}
+                    onClick={() => HandleDelete(workspace._id)}
                     className="
                         p-2
                         rounded-full
@@ -107,21 +87,10 @@ export function CourseCard({  course, delete: disabled = false }: CourseCardProp
                 >
                     <Trash className="w-5 h-5" />
                 </button>
-            )}
+            
         </div>
 
-        {/* Description */}
-        <div className="mt-5 flex-1">
-            <p className="
-                text-gray-200
-                leading-7
-                text-sm
-                md:text-base
-                line-clamp-4
-            ">
-                {course.course_description}
-            </p>
-        </div>
+      
 
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-white/10 ">
@@ -134,12 +103,12 @@ export function CourseCard({  course, delete: disabled = false }: CourseCardProp
                 hover:opacity-90
                 transition
                 cursor-pointer
-            " onClick={() => HandleNavigate(course._id)}>
-                Explore Course
+            " onClick={() => HandleNavigate(workspace._id)}>
+                All Notes
             </button>
         </div>
 
     </div>
 </div>
     )
-}   
+}
