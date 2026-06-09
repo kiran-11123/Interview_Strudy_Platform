@@ -14,7 +14,8 @@ const topic_schema = new mongoose.Schema({
     topic_description : {
         type : Object,
         required : true
-    }
+    },
+   
 },{timestamps : true    })
 
 
